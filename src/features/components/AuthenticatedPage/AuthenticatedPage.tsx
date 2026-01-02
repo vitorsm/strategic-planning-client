@@ -11,7 +11,7 @@ import {
   SidebarOverlay,
 } from './styles';
 import { NavItemType } from './types';
-import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
+import { Navigate, Route, Routes, useNavigate, useLocation } from 'react-router-dom';
 import { useAuthenticate } from '../../../shared/auth/useAuthenticate';
 
 export type AuthenticatedPageProps = {
@@ -25,7 +25,7 @@ const INITIAL_NAV_ITEMS: NavItemType[] = [
     icon: 'dashboard',
     label: 'Dashboard',
     href: '/dashbord',
-    active: true,
+    active: false,
   }, {
     icon: 'person',
     label: 'Users',
@@ -44,6 +44,16 @@ export const AuthenticatedPage = ({
   const [navItems, setNavItems] = useState<NavItemType[]>(INITIAL_NAV_ITEMS);
 
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    setNavItems((items) =>
+      items.map((item) => ({
+        ...item,
+        active: location.pathname === item.href,
+      }))
+    );
+  }, [location.pathname]);
 
   const openMobileMenu = () => setMobileMenuOpen(true);
   const closeMobileMenu = () => setMobileMenuOpen(false);

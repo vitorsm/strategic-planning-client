@@ -14,7 +14,6 @@ import {
   NavLabel,
   SidebarFooter,
   SignOutButton,
-  CollapseButton,
   MobileCloseButton,
 } from './styles';
 import { NavItemType } from './types';
@@ -42,22 +41,26 @@ export const Sidebar = ({
   onNavItemClick,
 }: SidebarProps) => {
   const navigate = useNavigate();
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(mobileOpen);
   const { logout } = useAuthenticate();
 
   console.log("userName", userName);
 
-  const toggleCollapse = () => {
-    setCollapsed((prev) => !prev);
+  const handleMouseEnter = () => {
+    setCollapsed(false);
+  };
+
+  const handleMouseLeave = () => {
+    setCollapsed(true);
   };
 
   return (
-    <SidebarWrap $collapsed={collapsed} $mobileOpen={mobileOpen}>
-      <CollapseButton onClick={toggleCollapse} aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}>
-        <span className="material-symbols-outlined">
-          {collapsed ? 'chevron_right' : 'chevron_left'}
-        </span>
-      </CollapseButton>
+    <SidebarWrap
+      $collapsed={collapsed}
+      $mobileOpen={mobileOpen}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
 
       <SidebarContent>
         <ProfileSection $collapsed={collapsed}>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Sidebar } from './Sidebar';
 import {
   PageWrap,
@@ -11,35 +11,57 @@ import {
   SidebarOverlay,
 } from './styles';
 import { NavItemType } from './types';
-import { Navigate, Route, Routes } from 'react-router-dom';
-import { useIsAuthenticated } from '../../../shared/auth/useIsAuthenticated';
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
+import { useAuthenticate } from '../../../shared/auth/useAuthenticate';
 
 export type AuthenticatedPageProps = {
-  userName: string;
-  userRole: string;
   userAvatar?: string;
-  navItems: NavItemType[];
   onSignOut?: () => void;
   title?: string;
 };
 
+const INITIAL_NAV_ITEMS: NavItemType[] = [
+  {
+    icon: 'dashboard',
+    label: 'Dashboard',
+    href: '/dashbord',
+    active: true,
+  }, {
+    icon: 'person',
+    label: 'Users',
+    href: '/users',
+    active: false,
+  }
+];
+
 export const AuthenticatedPage = ({
-  userName,
-  userRole,
   userAvatar,
-  navItems,
   onSignOut,
   title = 'Dashboard',
 }: AuthenticatedPageProps) => {
-  const isAuthenticated = useIsAuthenticated();
+  const { isAuthenticated, currentUser, getCurrentUser } = useAuthenticate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [navItems, setNavItems] = useState<NavItemType[]>(INITIAL_NAV_ITEMS);
+
+  const navigate = useNavigate();
 
   const openMobileMenu = () => setMobileMenuOpen(true);
   const closeMobileMenu = () => setMobileMenuOpen(false);
+  
+  useEffect(() => {
+    if (isAuthenticated()) {
+      getCurrentUser();
+    }
+  }, [getCurrentUser, isAuthenticated()]);
 
-  if (!isAuthenticated) {
+  if (!isAuthenticated()) {
     return <Navigate to="/login" replace />;
   }
+
+  const onNavItemClick = (item: NavItemType) => {
+    setNavItems(navItems.map((i) => ({ ...i, active: i.href === item.href })));
+    navigate(item.href, { replace: true });
+  };
 
   return (
     <PageWrap>
@@ -55,13 +77,14 @@ export const AuthenticatedPage = ({
 
       <MainContentWrap>
         <Sidebar
-          userName={userName}
-          userRole={userRole}
+          userName={currentUser?.name ?? ''}
+          userLogin={currentUser?.login ?? ''}
           userAvatar={userAvatar}
           navItems={navItems}
           onSignOut={onSignOut}
           mobileOpen={mobileMenuOpen}
           onMobileClose={closeMobileMenu}
+          onNavItemClick={onNavItemClick}
         />
         <MainContent>
           <Routes>

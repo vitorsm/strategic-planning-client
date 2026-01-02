@@ -2,8 +2,16 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from './App';
 
-// Create a mock authenticate function that we can configure
+// Create mock functions that we can configure
 const mockAuthenticate = jest.fn();
+const mockGetCurrentUser = jest.fn();
+const mockLogout = jest.fn();
+const mockIsAuthenticated = jest.fn();
+
+// Track mock state in an object so we can access current values dynamically
+const mockState = {
+  currentUser: null,
+};
 
 // Mock the useAuthenticate hook
 jest.mock('./shared/auth/useAuthenticate', () => {
@@ -14,6 +22,12 @@ jest.mock('./shared/auth/useAuthenticate', () => {
       authenticate: mockAuthenticate,
       isLoading: false,
       error: null,
+      isAuthenticated: mockIsAuthenticated,
+      getCurrentUser: mockGetCurrentUser,
+      logout: mockLogout,
+      get currentUser() {
+        return mockState.currentUser;
+      },
     }),
   };
 });
@@ -24,10 +38,28 @@ describe('App', () => {
     localStorage.removeItem('access_token');
     // Reset URL to login page
     window.history.pushState({}, '', '/login');
+    // Reset mocks
+    jest.clearAllMocks();
+    // By default, user is not authenticated and no current user
+    mockIsAuthenticated.mockReturnValue(false);
+    mockState.currentUser = null;
+    // Configure getCurrentUser to set the mock user
+    mockGetCurrentUser.mockImplementation(async () => {
+      mockState.currentUser = { id: 1, name: 'John Doe', login: 'Admin' };
+      return mockState.currentUser;
+    });
     // Configure the mock to set the access token when called
     mockAuthenticate.mockImplementation(async () => {
       localStorage.setItem('access_token', 'mock-token-123');
+      mockIsAuthenticated.mockReturnValue(true);
+      mockState.currentUser = { id: 1, name: 'John Doe', login: 'Admin' };
       return 'mock-token-123';
+    });
+    // Configure logout to clear the token
+    mockLogout.mockImplementation(async () => {
+      localStorage.removeItem('access_token');
+      mockIsAuthenticated.mockReturnValue(false);
+      mockState.currentUser = null;
     });
   });
 

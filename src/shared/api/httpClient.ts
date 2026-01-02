@@ -1,3 +1,6 @@
+
+import * as authStorage from '../auth/authStorage';
+
 export class APIClientError extends Error {
   status: number;
   body: unknown;
@@ -58,13 +61,13 @@ export type APIClientConfig = {
 
 const ACCESS_TOKEN_STORAGE_KEY = 'access_token';
 
-function defaultGetAccessToken(): string | null {
-  return localStorage.getItem(ACCESS_TOKEN_STORAGE_KEY);
-}
+// function defaultGetAccessToken(): string | null {
+//   return localStorage.getItem(ACCESS_TOKEN_STORAGE_KEY);
+// }
 
-function defaultClearAccessToken(): void {
-  localStorage.removeItem(ACCESS_TOKEN_STORAGE_KEY);
-}
+// function defaultClearAccessToken(): void {
+//   localStorage.removeItem(ACCESS_TOKEN_STORAGE_KEY);
+// }
 
 export class APIClient {
   private baseUrl: string;
@@ -73,8 +76,8 @@ export class APIClient {
 
   constructor(config: APIClientConfig = {}) {
     this.baseUrl = config.baseUrl ?? '';
-    this.getToken = defaultGetAccessToken;
-    this.onUnauthorized = config.onUnauthorized ?? defaultClearAccessToken;
+    this.getToken = authStorage.getAccessToken;
+    this.onUnauthorized = config.onUnauthorized ?? authStorage.clearAccessToken;
   }
 
   async get<T = unknown>(path: string, options: RequestOptions = {}): Promise<T> {
@@ -112,6 +115,10 @@ export class APIClient {
       signal: options.signal,
       body: hasBody ? JSON.stringify(options.body) : undefined,
     });
+
+    if (!response) {
+      console.log("no response");
+    }
 
     const contentType = response.headers.get('content-type') ?? '';
     const parsedBody: unknown = contentType.includes('application/json')

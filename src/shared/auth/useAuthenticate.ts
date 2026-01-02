@@ -1,5 +1,7 @@
 import React from 'react';
 import { APIClient, APIClientError } from '../api';
+import { User } from './authStorage';
+import * as authStorage from './authStorage';
 
 export type AuthenticateParams = {
   username: string;
@@ -13,27 +15,14 @@ export type AuthenticateResponse = {
   details?: string | null;
 };
 
-export const ACCESS_TOKEN_STORAGE_KEY = 'access_token';
-
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null;
-}
-
-export function getAccessToken(): string | null {
-  return localStorage.getItem(ACCESS_TOKEN_STORAGE_KEY);
-}
-
-export function setAccessToken(accessToken: string): void {
-  localStorage.setItem(ACCESS_TOKEN_STORAGE_KEY, accessToken);
-}
-
-export function clearAccessToken(): void {
-  localStorage.removeItem(ACCESS_TOKEN_STORAGE_KEY);
 }
 
 export function useAuthenticate() {
   const [isLoading, setIsLoading] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
+  const [currentUser, setCurrentUser] = React.useState<User | null>(null);
 
   // Keep base URL aligned with local dev backend by default.
   // Switch to '' to use same-origin proxying (e.g. CRA proxy) when needed.
@@ -52,7 +41,8 @@ export function useAuthenticate() {
         throw new Error('Authentication response missing access_token');
       }
 
-      setAccessToken(accessToken);
+      authStorage.setAccessToken(accessToken);
+      getCurrentUser();
       return accessToken;
     } catch (e) {
       const message =
@@ -68,6 +58,52 @@ export function useAuthenticate() {
     }
   }, [client]);
 
-  return { authenticate, isLoading, error };
+  const logout = React.useCallback(async () => {
+    authStorage.clearAccessToken();
+  }, []);
+
+  const getCurrentUser = React.useCallback(async () => {
+    const fromStorage = authStorage.getCurrentUser();
+    if (fromStorage) {
+      setCurrentUser(fromStorage);
+      return fromStorage;
+    }
+    return fetchCurrentUser();
+  }, []);
+
+  const fetchCurrentUser = React.useCallback(async () => {
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const responseBody = await client.get<User>('/api/users/me');
+
+      if (!responseBody || typeof responseBody !== 'object') {
+        throw new Error('Invalid user response');
+      }
+
+      authStorage.setCurrentUser(responseBody);
+      setCurrentUser(responseBody);
+      return responseBody;
+    } catch (e) {
+      const message =
+        e instanceof APIClientError && e.status === 401
+          ? 'Unauthorized'
+          : e instanceof Error
+            ? e.message
+            : 'Failed to fetch user';
+      setError(message);
+      throw e;
+    } finally {
+      setIsLoading(false);
+    }
+  }, [client]);
+
+  const isAuthenticated = (): boolean => {
+    const accessToken = authStorage.getAccessToken();
+    return accessToken !== null && accessToken.trim().length > 0;
+  }
+
+  return { authenticate, isAuthenticated, currentUser, getCurrentUser, logout, isLoading, error };
 }
 

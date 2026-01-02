@@ -1,10 +1,6 @@
 import { renderHook, act, waitFor } from '@testing-library/react';
 import {
   useAuthenticate,
-  getAccessToken,
-  setAccessToken,
-  clearAccessToken,
-  ACCESS_TOKEN_STORAGE_KEY,
 } from '../useAuthenticate';
 import { APIClientError } from '../../api';
 
@@ -60,78 +56,6 @@ const createMockResponse = (
   } as unknown as Response;
 };
 
-describe('ACCESS_TOKEN_STORAGE_KEY', () => {
-  it('has the expected value', () => {
-    expect(ACCESS_TOKEN_STORAGE_KEY).toBe('access_token');
-  });
-});
-
-describe('getAccessToken', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-    Object.keys(localStorageStore).forEach(key => delete localStorageStore[key]);
-  });
-
-  it('returns the access token from localStorage', () => {
-    localStorageStore['access_token'] = 'my-token';
-
-    const result = getAccessToken();
-
-    expect(result).toBe('my-token');
-    expect(mockLocalStorage.getItem).toHaveBeenCalledWith('access_token');
-  });
-
-  it('returns null when no token is stored', () => {
-    const result = getAccessToken();
-
-    expect(result).toBeNull();
-    expect(mockLocalStorage.getItem).toHaveBeenCalledWith('access_token');
-  });
-});
-
-describe('setAccessToken', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-    Object.keys(localStorageStore).forEach(key => delete localStorageStore[key]);
-  });
-
-  it('stores the access token in localStorage', () => {
-    setAccessToken('new-token');
-
-    expect(mockLocalStorage.setItem).toHaveBeenCalledWith('access_token', 'new-token');
-    expect(localStorageStore['access_token']).toBe('new-token');
-  });
-
-  it('overwrites existing token', () => {
-    localStorageStore['access_token'] = 'old-token';
-
-    setAccessToken('new-token');
-
-    expect(localStorageStore['access_token']).toBe('new-token');
-  });
-});
-
-describe('clearAccessToken', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-    Object.keys(localStorageStore).forEach(key => delete localStorageStore[key]);
-  });
-
-  it('removes the access token from localStorage', () => {
-    localStorageStore['access_token'] = 'my-token';
-
-    clearAccessToken();
-
-    expect(mockLocalStorage.removeItem).toHaveBeenCalledWith('access_token');
-    expect(localStorageStore['access_token']).toBeUndefined();
-  });
-
-  it('does not throw when no token exists', () => {
-    expect(() => clearAccessToken()).not.toThrow();
-    expect(mockLocalStorage.removeItem).toHaveBeenCalledWith('access_token');
-  });
-});
-
 describe('useAuthenticate', () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -160,7 +84,7 @@ describe('useAuthenticate', () => {
 
   describe('successful authentication', () => {
     it('makes a POST request to /api/authenticate', async () => {
-      mockFetch.mockResolvedValueOnce(
+      mockFetch.mockResolvedValue(
         createMockResponse({ access_token: 'valid-token' })
       );
       const { result } = renderHook(() => useAuthenticate());
@@ -179,9 +103,9 @@ describe('useAuthenticate', () => {
     });
 
     it('stores the access token in localStorage on success', async () => {
-      mockFetch.mockResolvedValueOnce(
-        createMockResponse({ access_token: 'valid-token' })
-      );
+      mockFetch
+        .mockResolvedValueOnce(createMockResponse({ access_token: 'valid-token' }))
+        .mockResolvedValueOnce(createMockResponse({ id: 1, username: 'user' }));
       const { result } = renderHook(() => useAuthenticate());
 
       await act(async () => {
@@ -192,9 +116,9 @@ describe('useAuthenticate', () => {
     });
 
     it('returns the access token on success', async () => {
-      mockFetch.mockResolvedValueOnce(
-        createMockResponse({ access_token: 'valid-token' })
-      );
+      mockFetch
+        .mockResolvedValueOnce(createMockResponse({ access_token: 'valid-token' }))
+        .mockResolvedValueOnce(createMockResponse({ id: 1, username: 'user' }));
       const { result } = renderHook(() => useAuthenticate());
 
       let returnedToken: string | undefined;
@@ -210,7 +134,9 @@ describe('useAuthenticate', () => {
       const fetchPromise = new Promise<Response>((resolve) => {
         resolvePromise = resolve;
       });
-      mockFetch.mockReturnValueOnce(fetchPromise);
+      mockFetch
+        .mockReturnValueOnce(fetchPromise)
+        .mockResolvedValueOnce(createMockResponse({ id: 1, username: 'user' }));
 
       const { result } = renderHook(() => useAuthenticate());
 
@@ -247,9 +173,9 @@ describe('useAuthenticate', () => {
       expect(result.current.error).not.toBeNull();
 
       // Now try a successful authentication
-      mockFetch.mockResolvedValueOnce(
-        createMockResponse({ access_token: 'valid-token' })
-      );
+      mockFetch
+        .mockResolvedValueOnce(createMockResponse({ access_token: 'valid-token' }))
+        .mockResolvedValueOnce(createMockResponse({ id: 1, username: 'user' }));
 
       await act(async () => {
         await result.current.authenticate({ username: 'user', password: 'pass' });

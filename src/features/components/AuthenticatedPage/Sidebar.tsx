@@ -18,29 +18,34 @@ import {
   MobileCloseButton,
 } from './styles';
 import { NavItemType } from './types';
-import { clearAccessToken } from '../../../shared/auth/useAuthenticate';
+import { useAuthenticate } from '../../../shared/auth/useAuthenticate';
 
 export type SidebarProps = {
   userName: string;
-  userRole: string;
+  userLogin: string;
   userAvatar?: string;
   navItems: NavItemType[];
   onSignOut?: () => void;
   mobileOpen?: boolean;
   onMobileClose?: () => void;
+  onNavItemClick?: (item: NavItemType) => void;
 };
 
 export const Sidebar = ({
   userName,
-  userRole,
+  userLogin,
   userAvatar,
   navItems,
   onSignOut,
   mobileOpen = false,
   onMobileClose,
+  onNavItemClick,
 }: SidebarProps) => {
   const navigate = useNavigate();
   const [collapsed, setCollapsed] = useState(false);
+  const { logout } = useAuthenticate();
+
+  console.log("userName", userName);
 
   const toggleCollapse = () => {
     setCollapsed((prev) => !prev);
@@ -63,7 +68,7 @@ export const Sidebar = ({
           />
           <ProfileInfo $collapsed={collapsed}>
             <ProfileName>{userName}</ProfileName>
-            <ProfileRole>{userRole}</ProfileRole>
+            <ProfileRole>{userLogin}</ProfileRole>
           </ProfileInfo>
           <MobileCloseButton onClick={onMobileClose} aria-label="Close menu">
             <span className="material-symbols-outlined">close</span>
@@ -72,7 +77,7 @@ export const Sidebar = ({
 
         <Nav>
           {navItems.map((item) => (
-            <NavItem key={item.href} href={item.href} $active={item.active} $collapsed={collapsed}>
+            <NavItem key={item.href} $active={item.active} $collapsed={collapsed} onClick={() => onNavItemClick?.(item)}>
               <NavIcon className="material-symbols-outlined">{item.icon}</NavIcon>
               <NavLabel $collapsed={collapsed}>{item.label}</NavLabel>
             </NavItem>
@@ -82,7 +87,7 @@ export const Sidebar = ({
         <SidebarFooter>
           <SignOutButton
             onClick={() => {
-              clearAccessToken();
+              logout();
               onSignOut?.();
               navigate('/login', { replace: true });
             }}

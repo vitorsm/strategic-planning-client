@@ -159,7 +159,7 @@ export const Nav = styled.nav`
   flex: 1;
 `;
 
-export const NavItem = styled.a<{ $active?: boolean; $collapsed?: boolean }>`
+export const NavItem = styled.div<{ $active?: boolean; $collapsed?: boolean }>`
   display: flex;
   align-items: center;
   justify-content: ${({ $collapsed }) => ($collapsed ? 'center' : 'flex-start')};

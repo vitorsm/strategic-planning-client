@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { act } from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
@@ -7,12 +7,14 @@ import { LoginPage } from '../LoginPage';
 
 // Mock the useAuthenticate hook
 const mockAuthenticate = jest.fn();
+const mockIsAuthenticated = jest.fn(() => false);
 jest.mock('../../../../../shared/auth/useAuthenticate', () => {
   const actual = jest.requireActual('../../../../../shared/auth/useAuthenticate');
   return {
     ...actual,
     useAuthenticate: () => ({
       authenticate: mockAuthenticate,
+      isAuthenticated: mockIsAuthenticated,
       isLoading: mockIsLoading,
       error: mockError,
     }),
@@ -125,7 +127,9 @@ describe('LoginPage', () => {
 
       await userEvent.type(screen.getByLabelText('Work Email'), 'user@example.com');
       await userEvent.type(screen.getByLabelText('Password'), 'mypassword');
-      await userEvent.click(screen.getByRole('button', { name: 'Log In' }));
+      await act(async () => {
+        await userEvent.click(screen.getByRole('button', { name: 'Log In' }));
+      });
 
       expect(mockAuthenticate).toHaveBeenCalledWith({
         username: 'user@example.com',
@@ -139,7 +143,9 @@ describe('LoginPage', () => {
 
       await userEvent.type(screen.getByLabelText('Work Email'), 'user@example.com');
       await userEvent.type(screen.getByLabelText('Password'), 'wrongpassword');
-      await userEvent.click(screen.getByRole('button', { name: 'Log In' }));
+      await act(async () => { 
+        await userEvent.click(screen.getByRole('button', { name: 'Log In' }));
+      });
 
       await waitFor(() => {
         expect(mockAuthenticate).toHaveBeenCalled();

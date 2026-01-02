@@ -26,7 +26,6 @@ import {
   WelcomeTitle,
 } from './styles';
 import { useAuthenticate } from '../../../../shared/auth/useAuthenticate';
-import { useIsAuthenticated } from '../../../../shared/auth/useIsAuthenticated';
 
 export const LoginPage = () => {
   const navigate = useNavigate();
@@ -34,10 +33,9 @@ export const LoginPage = () => {
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [rememberMe, setRememberMe] = React.useState(false);
-  
-  const isAuthenticated = useIsAuthenticated();
+  const { isAuthenticated } = useAuthenticate();
 
-  if (isAuthenticated) {
+  if (isAuthenticated()) {
     return <Navigate to="/dashbord" replace />;
   }
 

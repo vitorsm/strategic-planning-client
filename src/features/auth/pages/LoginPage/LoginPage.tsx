@@ -1,6 +1,6 @@
 import React from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { Checkbox, NavLink, PrimaryButton, SecondaryButton, TextInput } from '../../../../shared/components';
-import { UnauthenticatedPage } from '../../../components';
 import {
   BottomNote,
   BottomNoteText,
@@ -26,27 +26,32 @@ import {
   WelcomeTitle,
 } from './styles';
 import { useAuthenticate } from '../../../../shared/auth/useAuthenticate';
+import { useIsAuthenticated } from '../../../../shared/auth/useIsAuthenticated';
 
 export const LoginPage = () => {
+  const navigate = useNavigate();
   const { authenticate, isLoading, error } = useAuthenticate();
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [rememberMe, setRememberMe] = React.useState(false);
-  const [didSucceed, setDidSucceed] = React.useState(false);
+  
+  const isAuthenticated = useIsAuthenticated();
+
+  if (isAuthenticated) {
+    return <Navigate to="/dashbord" replace />;
+  }
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setDidSucceed(false);
     try {
       await authenticate({ username, password });
-      setDidSucceed(true);
+      navigate('/', { replace: true });
     } catch {
       // `useAuthenticate` sets the user-facing error state.
     }
   };
 
   return (
-    <UnauthenticatedPage>
       <Main>
         <LayoutCard>
           <VisualPanel aria-hidden="true">
@@ -118,7 +123,6 @@ export const LoginPage = () => {
                 </PrimaryButton>
 
                 {error ? <FormMessage $variant="error">{error}</FormMessage> : null}
-                {!error && didSucceed ? <FormMessage $variant="success">Logged in.</FormMessage> : null}
               </Form>
 
               <Divider>
@@ -168,7 +172,6 @@ export const LoginPage = () => {
           </FormPanel>
         </LayoutCard>
       </Main>
-    </UnauthenticatedPage>
   );
 };
 

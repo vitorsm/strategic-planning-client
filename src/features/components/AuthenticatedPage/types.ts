@@ -4,12 +4,5 @@ export type NavItemType = {
     label: string;
     href: string;
     active?: boolean;
-};
-
-export type SidebarProps = {
-    userName: string;
-    userRole: string;
-    userAvatar?: string;
-    navItems: NavItemType[];
-    onSignOut?: () => void;
+    addButtonClicked: boolean;
 };

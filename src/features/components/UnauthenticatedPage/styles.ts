@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { colors } from '../../../shared/styles/colors';
+import { MOBILE_SIZE } from '../../../shared';
 
 export const PageWrap = styled.div`
   min-height: 100vh;
@@ -65,7 +66,7 @@ export const LinkRow = styled.nav`
   align-items: center;
   gap: 36px;
 
-  @media (min-width: 768px) {
+  @media (min-width: ${MOBILE_SIZE}px) {
     display: flex;
   }
 `;
@@ -107,7 +108,7 @@ export const LinksGrid = styled.div`
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 32px;
 
-  @media (min-width: 768px) {
+  @media (min-width: ${MOBILE_SIZE}px) {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 `;
@@ -119,7 +120,7 @@ export const Column = styled.div<{ $span?: number; $mdSpan?: number }>`
 
   grid-column: span ${({ $span }) => $span ?? 1} / span ${({ $span }) => $span ?? 1};
 
-  @media (min-width: 768px) {
+  @media (min-width: ${MOBILE_SIZE}px) {
     grid-column: span ${({ $mdSpan, $span }) => $mdSpan ?? $span ?? 1} /
       span ${({ $mdSpan, $span }) => $mdSpan ?? $span ?? 1};
   }
@@ -155,7 +156,7 @@ export const BottomRow = styled.div`
   align-items: center;
   justify-content: space-between;
 
-  @media (min-width: 768px) {
+  @media (min-width: ${MOBILE_SIZE}px) {
     flex-direction: row;
   }
 `;

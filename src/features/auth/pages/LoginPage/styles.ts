@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { colors } from '../../../../shared/styles/colors';
+import { MOBILE_SIZE } from '../../../../shared';
 
 export const Main = styled.main`
   flex: 1;
@@ -8,7 +9,7 @@ export const Main = styled.main`
   justify-content: center;
   padding: 40px 16px;
 
-  @media (min-width: 768px) {
+  @media (min-width: ${MOBILE_SIZE}px) {
     padding: 40px 24px;
   }
 `;
@@ -24,7 +25,7 @@ export const LayoutCard = styled.section`
   display: flex;
   flex-direction: column;
 
-  @media (min-width: 768px) {
+  @media (min-width: ${MOBILE_SIZE}px) {
     flex-direction: row;
   }
 `;
@@ -39,7 +40,7 @@ export const VisualPanel = styled.aside`
   background-image: linear-gradient(135deg, rgba(19, 127, 236, 0.9) 0%, rgba(16, 25, 34, 0.95) 100%),
     url('https://lh3.googleusercontent.com/aida-public/AB6AXuCEvLHe6O4W2LTINLqpvH5K2FNW5hBUJ5TylYeHLYYIWTad-iqtEcA7XmMJHIPAG0qsa5pWXsaUyYJlhof2BQpKI1zD3Putve-kiISzPL6zCTdxrtfxHuS5eH8FJFvtff_TJdvYXUI_Z5ydHtP25fK0WRO8bih_TMCmKC7TWN4IA-nRSDlAHgZEs-EmRigNabN9WTI5QbbSxK0TVNdEZSxmOI0Kyy5y5IJ2vZdBoLHLDMi2iXWjXZXAfxNVxL9ldMOu_lUlGVBjR_Lq');
 
-  @media (min-width: 768px) {
+  @media (min-width: ${MOBILE_SIZE}px) {
     display: block;
   }
 `;
@@ -125,7 +126,7 @@ export const FormPanel = styled.div`
   align-items: center;
   justify-content: center;
 
-  @media (min-width: 768px) {
+  @media (min-width: ${MOBILE_SIZE}px) {
     padding: 48px;
   }
 `;

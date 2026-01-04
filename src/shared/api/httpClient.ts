@@ -116,10 +116,6 @@ export class APIClient {
       body: hasBody ? JSON.stringify(options.body) : undefined,
     });
 
-    if (!response) {
-      console.log("no response");
-    }
-
     const contentType = response.headers.get('content-type') ?? '';
     const parsedBody: unknown = contentType.includes('application/json')
       ? await response.json().catch(() => null)

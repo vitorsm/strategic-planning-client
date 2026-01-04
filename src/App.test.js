@@ -85,7 +85,7 @@ describe('App', () => {
 
     // Step 3: Wait for redirect to dashboard
     await waitFor(() => {
-      expect(screen.getByText('dashbord')).toBeInTheDocument();
+      expect(screen.getByText('Dashboard')).toBeInTheDocument();
     });
 
     // Verify we see the authenticated page elements (sidebar with user info)

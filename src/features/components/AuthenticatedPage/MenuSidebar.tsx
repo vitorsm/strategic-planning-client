@@ -19,7 +19,7 @@ import {
 import { NavItemType } from './types';
 import { useAuthenticate } from '../../../shared/auth/useAuthenticate';
 
-export type SidebarProps = {
+export type MenuSidebarProps = {
   userName: string;
   userLogin: string;
   userAvatar?: string;
@@ -30,7 +30,7 @@ export type SidebarProps = {
   onNavItemClick?: (item: NavItemType) => void;
 };
 
-export const Sidebar = ({
+export const MenuSidebar = ({
   userName,
   userLogin,
   userAvatar,
@@ -39,12 +39,10 @@ export const Sidebar = ({
   mobileOpen = false,
   onMobileClose,
   onNavItemClick,
-}: SidebarProps) => {
+}: MenuSidebarProps) => {
   const navigate = useNavigate();
   const [collapsed, setCollapsed] = useState(mobileOpen);
   const { logout } = useAuthenticate();
-
-  console.log("userName", userName);
 
   const handleMouseEnter = () => {
     setCollapsed(false);

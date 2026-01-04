@@ -1,21 +1,26 @@
 <!DOCTYPE html>
+
 <html class="dark" lang="en">
 
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>EM Dashboard</title>
+    <title>Goal Management</title>
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com" rel="preconnect" />
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap"
         rel="stylesheet" />
+    <!-- Material Symbols -->
     <link
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
     <link
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <!-- Tailwind Configuration -->
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -25,23 +30,20 @@
                         "primary": "#137fec",
                         "background-light": "#f6f7f8",
                         "background-dark": "#101922",
-                        "surface-dark": "#1e293b", // Matches plan description for card surface
-                        "border-dark": "#334155",
+                        "surface-dark": "#1c232d",
+                        "card-dark": "#242c36",
+                        "border-dark": "#343e4b",
                     },
                     fontFamily: {
                         "display": ["Inter", "sans-serif"]
                     },
-                    borderRadius: {
-                        "DEFAULT": "0.375rem",
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "full": "9999px"
-                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
                 },
             },
         }
     </script>
     <style>
+        /* Custom scrollbar for dark mode feeling */
         ::-webkit-scrollbar {
             width: 8px;
             height: 8px;
@@ -52,72 +54,323 @@
         }
 
         ::-webkit-scrollbar-thumb {
-            background: #334155;
+            background: #343e4b;
             border-radius: 4px;
         }
 
         ::-webkit-scrollbar-thumb:hover {
-            background: #475569;
+            background: #4b5563;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .icon-fill {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
     </style>
 </head>
 
-<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display overflow-hidden">
-    <div class="flex h-screen w-full">
-        <aside
-            class="flex w-72 flex-col border-r border-slate-200 dark:border-border-dark bg-white dark:bg-background-dark hidden md:flex">
-            <div class="flex flex-col gap-4 p-4 h-full">
-                <div class="flex items-center gap-3 px-2 py-2 mb-4">
-                    <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-12 ring-2 ring-primary/20"
-                        data-alt="Profile picture of engineering manager"
-                        style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDa7eKxQ9XyA5JlvJcKlqIvggrr4JEDHwBdEediJ1oLvbX_CV8xiDRcRvWSNvO8hZUX3cG8-W1JOkkLckRDP2ejJnx56xNAdzktUY-qibJ2OpVRZvSxD0-rmyiQXN_Djl8k4jTS1EcwmCNwk4ZD3d5qIj-CT7byphOQq9OVMukX3k8agizoPb7M4hevab8Iek1kw7hMnuuB2UZc5DGM2a07j8jOOi9QVEvi_DkBWz_BL-_g5rKibEjx3457UJV3ElgO3L4gRgly6c0_");'>
+<body
+    class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display antialiased overflow-hidden h-screen flex">
+    
+    <!-- Main Content Area -->
+    <main class="flex-1 flex flex-col min-w-0 bg-background-light dark:bg-background-dark overflow-hidden">
+        <!-- Top Toolbar / Header -->
+        <header class="flex-none px-6 py-5 border-b border-border-dark bg-[#111418]">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 max-w-[1600px] mx-auto w-full">
+                <div class="flex flex-col gap-1">
+                    <div class="flex items-center gap-2">
+                        <h2 class="text-white text-2xl font-black tracking-tight">Goal Tracking</h2>
+                        <span
+                            class="px-2 py-0.5 rounded text-xs font-bold bg-[#283039] text-[#9dabb9] border border-border-dark">Q3
+                            2024</span>
                     </div>
-                    <div class="flex flex-col">
-                        <h1 class="text-slate-900 dark:text-white text-base font-semibold leading-tight">Alex Morgan
-                        </h1>
-                        <p class="text-slate-500 dark:text-slate-400 text-xs font-medium">Engineering Manager</p>
-                    </div>
+                    <p class="text-[#9dabb9] text-sm">Strategic initiatives and engineering KPIs</p>
                 </div>
-                <nav class="flex flex-col gap-1 grow">
-                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary text-white group transition-colors"
-                        href="#">
-                        <span class="material-symbols-outlined text-[20px]">dashboard</span>
-                        <span class="text-sm font-medium">Dashboard</span>
-                    </a>
-                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-surface-dark hover:text-slate-900 dark:hover:text-white transition-colors"
-                        href="#">
-                        <span class="material-symbols-outlined text-[20px]">ecg_heart</span>
-                        <span class="text-sm font-medium">Team Health</span>
-                    </a>
-                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-surface-dark hover:text-slate-900 dark:hover:text-white transition-colors"
-                        href="#">
-                        <span class="material-symbols-outlined text-[20px]">local_shipping</span>
-                        <span class="text-sm font-medium">Delivery</span>
-                    </a>
-                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-surface-dark hover:text-slate-900 dark:hover:text-white transition-colors"
-                        href="#">
-                        <span class="material-symbols-outlined text-[20px]">lightbulb</span>
-                        <span class="text-sm font-medium">Strategy</span>
-                    </a>
-                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-surface-dark hover:text-slate-900 dark:hover:text-white transition-colors"
-                        href="#">
-                        <span class="material-symbols-outlined text-[20px]">settings</span>
-                        <span class="text-sm font-medium">Settings</span>
-                    </a>
-                </nav>
-                <div class="mt-auto pt-4 border-t border-slate-200 dark:border-border-dark">
+                <div class="flex items-center gap-3">
                     <button
-                        class="flex w-full items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-red-50 dark:hover:bg-red-900/10 hover:text-red-600 dark:hover:text-red-400 transition-colors">
-                        <span class="material-symbols-outlined text-[20px]">logout</span>
-                        <span class="text-sm font-medium">Sign Out</span>
+                        class="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[#283039] hover:bg-[#343e4b] text-white text-sm font-medium transition-colors border border-border-dark">
+                        <span class="material-symbols-outlined text-[20px]">file_download</span>
+                        <span class="hidden sm:inline">Export</span>
+                    </button>
+                    <button
+                        class="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-primary hover:bg-blue-600 text-white text-sm font-bold shadow-lg shadow-blue-500/20 transition-all">
+                        <span class="material-symbols-outlined text-[20px]">add</span>
+                        New Goal
                     </button>
                 </div>
             </div>
-        </aside>
-        <main class="flex-1 flex flex-col h-full overflow-y-auto bg-background-light dark:bg-background-dark">
-            Body
-        </main>
-    </div>
+        </header>
+        <!-- Scrollable Content -->
+        <div class="flex-1 overflow-y-auto">
+            <div class="p-6 max-w-[1600px] mx-auto flex flex-col gap-6">
+                <!-- Stats Row -->
+               
+                <!-- Main Content Split -->
+                <div class="flex flex-col xl:flex-row gap-6 h-full min-h-[600px]">
+                    <!-- Left Side: Filters & Tree Table -->
+                    <div class="flex-1 flex flex-col gap-4">
+                        <!-- Filters -->
+                        <div class="flex flex-wrap items-center gap-3">
+                            <div class="relative group">
+                                <span
+                                    class="absolute left-3 top-1/2 -translate-y-1/2 text-[#9dabb9] material-symbols-outlined">search</span>
+                                <input
+                                    class="bg-[#1c232d] border border-border-dark text-white text-sm rounded-lg pl-10 pr-4 py-2 w-64 focus:outline-none focus:ring-1 focus:ring-primary placeholder-[#64748b]"
+                                    placeholder="Search goals..." type="text" />
+                            </div>
+                            <div class="w-px h-6 bg-border-dark mx-1"></div>
+                            <button
+                                class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-primary/20 text-primary text-sm font-medium border border-primary/20">
+                                My Goals
+                                <span class="material-symbols-outlined text-[18px]">close</span>
+                            </button>
+                            <button
+                                class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#283039] text-[#9dabb9] hover:text-white text-sm font-medium border border-border-dark transition-colors">
+                                Team Goals
+                            </button>
+                            <button
+                                class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#283039] text-[#9dabb9] hover:text-white text-sm font-medium border border-border-dark transition-colors">
+                                Status: All
+                                <span class="material-symbols-outlined text-[18px]">expand_more</span>
+                            </button>
+                            <button
+                                class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#283039] text-[#9dabb9] hover:text-white text-sm font-medium border border-border-dark transition-colors">
+                                Owner: All
+                                <span class="material-symbols-outlined text-[18px]">expand_more</span>
+                            </button>
+                        </div>
+                        <!-- Tree Table -->
+                        <div
+                            class="bg-[#1c232d] rounded-xl border border-border-dark overflow-hidden flex flex-col shadow-xl">
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left border-collapse">
+                                    <thead>
+                                        <tr
+                                            class="bg-[#242c36] text-[#9dabb9] text-xs font-semibold uppercase tracking-wider border-b border-border-dark">
+                                            <th class="px-6 py-4 w-[40%]">Goal Title</th>
+                                            <th class="px-4 py-4 w-[10%]">Owner</th>
+                                            <th class="px-4 py-4 w-[15%]">Status</th>
+                                            <th class="px-4 py-4 w-[20%]">Progress</th>
+                                            <th class="px-4 py-4 w-[15%]">Due Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-border-dark text-sm">
+                                        <!-- Parent Row 1 -->
+                                        <tr class="group hover:bg-[#283039] transition-colors cursor-pointer">
+                                            <td class="px-6 py-4">
+                                                <div class="flex items-center gap-3">
+                                                    <button class="text-[#9dabb9] hover:text-white transition-colors">
+                                                        <span class="material-symbols-outlined">expand_more</span>
+                                                    </button>
+                                                    <div class="flex flex-col">
+                                                        <span class="text-white font-semibold text-base">Reduce
+                                                            Technical Debt</span>
+                                                        <span class="text-[#9dabb9] text-xs">Payment Service</span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="px-4 py-4">
+                                                <div class="bg-center bg-no-repeat bg-cover rounded-full size-8 ring-2 ring-border-dark"
+                                                    data-alt="Portrait of Sarah the Tech Lead"
+                                                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCYWKVPeET9IMllxsnvbSbozS8Iz7yw6KNDP7E3Ha6M0detzZLILs7eOwZGNOCi7-ZYVDmIcoVk8VWPkjtSzT_oMslTeTHSN-qX7lJPH7ctFpEOdXDIShjj_GDOeKLrEz7f6MoMjGWbrafBWqm8J2ObqSY3grCrrj-MHwjNVRDZK5AYLgvKiMYaJwLNiqlpu9q-Ak4-Qv2tnl-VKDxvgwBNQVpCwyDSTgXtq4M_T1FwKn7YKUo8M-uJRmv_DwQYFGxtRRi5Y8t7kl9_");'>
+                                                </div>
+                                            </td>
+                                            <td class="px-4 py-4">
+                                                <span
+                                                    class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                                                    On Track
+                                                </span>
+                                            </td>
+                                            <td class="px-4 py-4">
+                                                <div class="flex items-center gap-3">
+                                                    <div class="flex-1 h-2 bg-[#283039] rounded-full overflow-hidden">
+                                                        <div class="h-full bg-emerald-500 rounded-full"
+                                                            style="width: 65%"></div>
+                                                    </div>
+                                                    <span class="text-white font-medium text-xs w-8">65%</span>
+                                                </div>
+                                            </td>
+                                            <td class="px-4 py-4 text-[#9dabb9]">Oct 15</td>
+                                        </tr>
+                                        <!-- Child Row 1.1 (Active/Selected) -->
+                                        <tr class="bg-[#137fec]/10 border-l-[3px] border-l-primary cursor-pointer">
+                                            <td class="px-6 py-4">
+                                                <div class="flex items-center gap-3 pl-8 relative">
+                                                    <span
+                                                        class="absolute left-2 top-1/2 -translate-y-1/2 w-4 h-4 border-l border-b border-[#4b5563] rounded-bl-md"></span>
+                                                    <div class="flex flex-col">
+                                                        <span class="text-white font-medium">Migrate Stripe API to
+                                                            v12</span>
+                                                        <div class="flex items-center gap-2 mt-0.5">
+                                                            <span
+                                                                class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium bg-red-500/10 text-red-400 border border-red-500/20">
+                                                                <span
+                                                                    class="material-symbols-outlined text-[12px]">lock</span>
+                                                                Blocked
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="px-4 py-4">
+                                                <div class="bg-center bg-no-repeat bg-cover rounded-full size-8 ring-2 ring-border-dark"
+                                                    data-alt="Portrait of James the Senior Engineer"
+                                                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAX2oAHFvUW0CCDMyxSxFqBaiqCN3ts5jlFOGzb4gVvN84sDeaWR1zeZ_nRXV4zvh4kGfh4Zoow8T3inhVErWVjE1Lgom5mVQD0OND-GrcDh898uWK9UXqUOw_nlTR7zRzPbGUd3JD8rckgJX1qTGYSbDiSot9hToALHR7-7_8rP4trujixPEHqOWuk_RWDFVU8pcA_XnauM-1Hk5M6PnRG_PN1QHuzFDZwqRF7Stkhme7oWDZTrWAepTlEcUWOdx6dEVndTcex0YS7");'>
+                                                </div>
+                                            </td>
+                                            <td class="px-4 py-4">
+                                                <span
+                                                    class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-red-500/10 text-red-400 border border-red-500/20">
+                                                    <span class="w-1.5 h-1.5 rounded-full bg-red-400"></span>
+                                                    At Risk
+                                                </span>
+                                            </td>
+                                            <td class="px-4 py-4">
+                                                <div class="flex items-center gap-3">
+                                                    <div class="flex-1 h-2 bg-[#283039] rounded-full overflow-hidden">
+                                                        <div class="h-full bg-red-500 rounded-full" style="width: 45%">
+                                                        </div>
+                                                    </div>
+                                                    <span class="text-white font-medium text-xs w-8">45%</span>
+                                                </div>
+                                            </td>
+                                            <td class="px-4 py-4 text-[#9dabb9]">Sep 30</td>
+                                        </tr>
+                                        <!-- Child Row 1.2 -->
+                                        <tr class="group hover:bg-[#283039] transition-colors cursor-pointer">
+                                            <td class="px-6 py-4">
+                                                <div class="flex items-center gap-3 pl-8 relative">
+                                                    <span
+                                                        class="absolute left-2 top-1/2 -translate-y-1/2 w-4 h-4 border-l border-b border-[#4b5563] rounded-bl-md"></span>
+                                                    <span class="text-white font-medium">Deprecate Legacy
+                                                        Checkout</span>
+                                                </div>
+                                            </td>
+                                            <td class="px-4 py-4">
+                                                <div class="bg-center bg-no-repeat bg-cover rounded-full size-8 ring-2 ring-border-dark"
+                                                    data-alt="Portrait of Emily Junior Dev"
+                                                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBqyu0r7sC35WyEjKHbj1a7kFCDBAxYuS4yG6k-VSwdZyTyJybBLMmAbYA4xUlQ7oyxaYDYSb2g4etRmdVN9KH8fYZaPZILncJGlFu5iy3_ckyHTK0jaDkt0Lcd0CKu2aBmuhH6rgGNLslafeq3Imbj-eEhCOLxilNIo6sBLdX-KnZFyecwc5pBWqzAuZf3907g54yheiGCvW8YqZ__TgB6G2WG9q-kplRS98vqckvPcn-_WNxEFw72pJTTI1mgQ5m6ayW6rrt9f_AO");'>
+                                                </div>
+                                            </td>
+                                            <td class="px-4 py-4">
+                                                <span
+                                                    class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                                                    On Track
+                                                </span>
+                                            </td>
+                                            <td class="px-4 py-4">
+                                                <div class="flex items-center gap-3">
+                                                    <div class="flex-1 h-2 bg-[#283039] rounded-full overflow-hidden">
+                                                        <div class="h-full bg-emerald-500 rounded-full"
+                                                            style="width: 90%"></div>
+                                                    </div>
+                                                    <span class="text-white font-medium text-xs w-8">90%</span>
+                                                </div>
+                                            </td>
+                                            <td class="px-4 py-4 text-[#9dabb9]">Oct 10</td>
+                                        </tr>
+                                        <!-- Parent Row 2 -->
+                                        <tr
+                                            class="group hover:bg-[#283039] transition-colors cursor-pointer border-t-2 border-t-border-dark">
+                                            <td class="px-6 py-4">
+                                                <div class="flex items-center gap-3">
+                                                    <button class="text-[#9dabb9] hover:text-white transition-colors">
+                                                        <span class="material-symbols-outlined">expand_more</span>
+                                                    </button>
+                                                    <div class="flex flex-col">
+                                                        <span class="text-white font-semibold text-base">Improve Hiring
+                                                            Pipeline</span>
+                                                        <span class="text-[#9dabb9] text-xs">Recruiting</span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="px-4 py-4">
+                                                <div class="bg-center bg-no-repeat bg-cover rounded-full size-8 ring-2 ring-border-dark"
+                                                    data-alt="Portrait of Manager"
+                                                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBsTs4CEfQ9Lf1Z9hyxHlZJDqpCuS6Ebg9-OJoZK7GUq4PTlVIfJ9XzkFr2Wj2rcYJ9bqtKrBmbdzd-jdmoQNhEAihDSlluXDftJM8l8lQ1pWbd29d1kEb9oQRgap1NG3RsbaqA6mkC5cZUk0yUi4jzVz69PDEcth4SQzAAf3F8_yJj_A9Gwfl8bpo6S-6dvspch9DZuUwp90_WBycABJOS8WyVDURBm_roAVsHGXQftugNMm-wmapmwzakuzeZsFYAX5-QkYGp6xnT");'>
+                                                </div>
+                                            </td>
+                                            <td class="px-4 py-4">
+                                                <span
+                                                    class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-orange-500/10 text-orange-400 border border-orange-500/20">
+                                                    <span class="w-1.5 h-1.5 rounded-full bg-orange-400"></span>
+                                                    Warning
+                                                </span>
+                                            </td>
+                                            <td class="px-4 py-4">
+                                                <div class="flex items-center gap-3">
+                                                    <div class="flex-1 h-2 bg-[#283039] rounded-full overflow-hidden">
+                                                        <div class="h-full bg-orange-500 rounded-full"
+                                                            style="width: 30%"></div>
+                                                    </div>
+                                                    <span class="text-white font-medium text-xs w-8">30%</span>
+                                                </div>
+                                            </td>
+                                            <td class="px-4 py-4 text-[#9dabb9]">Nov 15</td>
+                                        </tr>
+                                        <!-- Child Row 2.1 -->
+                                        <tr class="group hover:bg-[#283039] transition-colors cursor-pointer">
+                                            <td class="px-6 py-4">
+                                                <div class="flex items-center gap-3 pl-8 relative">
+                                                    <span
+                                                        class="absolute left-2 top-1/2 -translate-y-1/2 w-4 h-4 border-l border-b border-[#4b5563] rounded-bl-md"></span>
+                                                    <span class="text-white font-medium">Hire 2 Senior Backend
+                                                        Engineers</span>
+                                                </div>
+                                            </td>
+                                            <td class="px-4 py-4">
+                                                <div class="bg-center bg-no-repeat bg-cover rounded-full size-8 ring-2 ring-border-dark"
+                                                    data-alt="Portrait of Recruiter"
+                                                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDmlwi-cOIE1pa2_9CB32Jyxu85mz4Afc3CjZhfummAaknoOltl23VTgeY4BLnlFJ9Iz3l3_sGunKxhNx52n8Z8JNhGZBUCBjl7HCC6abT3Kso9fhSK39rnUXNvz_s2WEkWMfxpEJXYARZzhsc_FQ8jprYyHOESul5SBtJMZhSI181Hz8sdrHLeTJe5GVkkw-zkYuUKykMHA_GnvNCpeIyHH-mcPP45Ihuoel94ApqGOI5WpsjXuYFaygLUtlR5tSzXEv4IKECB16C9");'>
+                                                </div>
+                                            </td>
+                                            <td class="px-4 py-4">
+                                                <span
+                                                    class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-orange-500/10 text-orange-400 border border-orange-500/20">
+                                                    <span class="w-1.5 h-1.5 rounded-full bg-orange-400"></span>
+                                                    Sourcing
+                                                </span>
+                                            </td>
+                                            <td class="px-4 py-4">
+                                                <div class="flex items-center gap-3">
+                                                    <div class="flex-1 h-2 bg-[#283039] rounded-full overflow-hidden">
+                                                        <div class="h-full bg-orange-500 rounded-full"
+                                                            style="width: 20%"></div>
+                                                    </div>
+                                                    <span class="text-white font-medium text-xs w-8">20%</span>
+                                                </div>
+                                            </td>
+                                            <td class="px-4 py-4 text-[#9dabb9]">Dec 01</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div
+                                class="px-6 py-3 border-t border-border-dark flex items-center justify-between bg-[#242c36]">
+                                <span class="text-xs text-[#9dabb9]">Showing 5 of 15 goals</span>
+                                <div class="flex gap-2">
+                                    <button
+                                        class="size-8 flex items-center justify-center rounded-lg border border-border-dark text-[#9dabb9] hover:bg-[#283039] hover:text-white transition-colors disabled:opacity-50"
+                                        disabled="">
+                                        <span class="material-symbols-outlined text-[18px]">chevron_left</span>
+                                    </button>
+                                    <button
+                                        class="size-8 flex items-center justify-center rounded-lg border border-border-dark text-[#9dabb9] hover:bg-[#283039] hover:text-white transition-colors">
+                                        <span class="material-symbols-outlined text-[18px]">chevron_right</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
 </body>
 
 </html>

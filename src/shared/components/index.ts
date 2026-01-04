@@ -19,3 +19,28 @@ export type { SecondaryButtonProps } from './SecondaryButton';
 export { TextInput } from './TextInput';
 export type { TextInputProps } from './TextInput';
 
+export { Table } from './Table';
+export type { TableProps, TableColumn, PaginationProps } from './Table';
+export {
+  TableWrap,
+  TableOverflow,
+  StyledTable,
+  TableHead,
+  TableHeadRow,
+  TableHeadCell,
+  TableBody,
+  TableRow,
+  TableCell,
+  PaginationWrap,
+  PaginationInfo,
+  PaginationButtons,
+  PaginationButton,
+  LoadingOverlay,
+  EmptyState,
+  EmptyStateTitle,
+  EmptyStateText,
+} from './Table';
+
+export { Sidebar } from './Sidebar';
+export type { SidebarProps, SidebarPosition } from './Sidebar';
+

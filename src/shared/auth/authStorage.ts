@@ -3,6 +3,8 @@ export type User = {
     id: string;
     name: string;
     login: string;
+    avatar_url?: string;
+    initials?: string;
   };
 
 export const ACCESS_TOKEN_STORAGE_KEY = 'access_token';

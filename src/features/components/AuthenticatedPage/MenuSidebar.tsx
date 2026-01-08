@@ -41,33 +41,45 @@ export const MenuSidebar = ({
   onNavItemClick,
 }: MenuSidebarProps) => {
   const navigate = useNavigate();
-  const [collapsed, setCollapsed] = useState(mobileOpen);
+  const [collapsed, setCollapsed] = useState(true);
   const { logout } = useAuthenticate();
 
+  // On mobile, when the sidebar is open, it should be expanded (not collapsed)
+  const isCollapsed = mobileOpen ? false : collapsed;
+
   const handleMouseEnter = () => {
-    setCollapsed(false);
+    if (!mobileOpen) {
+      setCollapsed(false);
+    }
   };
 
   const handleMouseLeave = () => {
-    setCollapsed(true);
+    if (!mobileOpen) {
+      setCollapsed(true);
+    }
   };
+
+  const onNavItemClickSidebar = (item: NavItemType) => {
+    onNavItemClick?.(item);
+    setCollapsed(false);
+  }
 
   return (
     <SidebarWrap
-      $collapsed={collapsed}
+      $collapsed={isCollapsed}
       $mobileOpen={mobileOpen}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
 
       <SidebarContent>
-        <ProfileSection $collapsed={collapsed}>
+        <ProfileSection $collapsed={isCollapsed}>
           <ProfileAvatar
             $imageUrl={userAvatar}
-            $collapsed={collapsed}
+            $collapsed={isCollapsed}
             data-alt={`Profile picture of ${userName}`}
           />
-          <ProfileInfo $collapsed={collapsed}>
+          <ProfileInfo $collapsed={isCollapsed}>
             <ProfileName>{userName}</ProfileName>
             <ProfileRole>{userLogin}</ProfileRole>
           </ProfileInfo>
@@ -78,9 +90,9 @@ export const MenuSidebar = ({
 
         <Nav>
           {navItems.map((item) => (
-            <NavItem key={item.href} $active={item.active} $collapsed={collapsed} onClick={() => onNavItemClick?.(item)}>
+            <NavItem key={item.href} $active={item.active} $collapsed={isCollapsed} onClick={() => onNavItemClickSidebar(item)}>
               <NavIcon className="material-symbols-outlined">{item.icon}</NavIcon>
-              <NavLabel $collapsed={collapsed}>{item.label}</NavLabel>
+              <NavLabel $collapsed={isCollapsed}>{item.label}</NavLabel>
             </NavItem>
           ))}
         </Nav>
@@ -92,13 +104,14 @@ export const MenuSidebar = ({
               onSignOut?.();
               navigate('/login', { replace: true });
             }}
-            $collapsed={collapsed}
+            $collapsed={isCollapsed}
           >
             <NavIcon className="material-symbols-outlined">logout</NavIcon>
-            <NavLabel $collapsed={collapsed}>Sign Out</NavLabel>
+            <NavLabel $collapsed={isCollapsed}>Sign Out</NavLabel>
           </SignOutButton>
         </SidebarFooter>
       </SidebarContent>
+      
     </SidebarWrap>
   );
 };

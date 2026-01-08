@@ -1,10 +1,12 @@
-export { EntityCRUD } from './EntityCRUD';
+export { MainEntityPage } from './pages/MainEntityPage';
+export { EntityDetailsPage } from './pages/EntityDetailsPage';
+export { RoutePage } from './pages/RoutePage';
 export type {
-  EntityCRUDProps,
   EntityItem,
   EntityStatus,
   EntityColumn,
   EntityTag,
   FilterOption,
+  ActionButtonProps
 } from './types';
 

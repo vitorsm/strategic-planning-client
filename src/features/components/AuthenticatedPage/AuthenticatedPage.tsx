@@ -22,12 +22,12 @@ import {
 import { NavItemType } from './types';
 import { Navigate, Route, Routes, useNavigate, useLocation } from 'react-router-dom';
 import { useAuthenticate } from '../../../shared/auth/useAuthenticate';
-import { EntityCRUD, EntityItem } from '../EntityCRUD';
+import { MainEntityPage, EntityItem } from '../EntityCRUD';
 import { TeamPage } from '../../teams';
 import { TableColumn } from '../../../shared';
 import { OwnerAvatar } from '../EntityCRUD/styles';
 import { ActionButtonProps } from '../EntityCRUD/types';
-import { MobileActionButtons } from '../MobileActionButtons';
+import { MobileActionButtons } from './MobileActionButtons';
 
 export type AuthenticatedPageProps = {
   userAvatar?: string;
@@ -183,13 +183,7 @@ export const AuthenticatedPage = ({
   const onNavItemClick = (item: NavItemType) => {
     setNavItems(navItems.map((i) => ({ ...i, active: i.href === item.href })));
     navigate(item.href, { replace: true });
-  };
-
-
-  // to remove
-  const handleCreateClick = () => {
-    // TODO: Implement create functionality
-    console.log('Create clicked');
+    setMobileMenuOpen(false);
   };
 
   const renderMobileButtons = () => {
@@ -206,7 +200,7 @@ export const AuthenticatedPage = ({
     }
 
     return (
-      <MobileMenuButton onClick={primaryActionButton?.onClick} aria-label="Add new item">
+      <MobileMenuButton onClick={primaryActionButton?.onClick} aria-label="primary action">
         <span className="material-symbols-outlined">{primaryActionButton?.icon}</span>
       </MobileMenuButton>
     )
@@ -264,10 +258,10 @@ export const AuthenticatedPage = ({
   }
 
   return (
-    <PageWrap>
+    <PageWrap className="page-wrap">
       <SidebarOverlay $open={mobileMenuOpen} onClick={closeMobileMenu} />
 
-      <MainContentWrap>
+      <MainContentWrap className="main-content-wrap">
         <MenuSidebar
           userName={currentUser?.name ?? ''}
           userLogin={currentUser?.login ?? ''}
@@ -290,24 +284,24 @@ export const AuthenticatedPage = ({
           {renderHeader()}
           <Routes>
             <Route
-              path="/dashbord"
+              path="/dashbord/*"
               element={
-                <EntityCRUD
+                <MainEntityPage
                   title="Goal Tracking"
                   subtitle="Strategic initiatives and engineering KPIs"
                   setPageTitle={setPageTitle}
                   setPageSubtitle={setPageSubtitle}
                   items={items}
                   tableColumns={tableColumns}
-                  onCreateClick={handleCreateClick}
                   createButtonLabel="New Goal"
                   searchPlaceholder="Search goals..."
                   setPrimaryActionButton={setPrimaryActionButton}
+                  onRefresh={() => {}}
                 />
               }
             />
             <Route
-              path="/teams"
+              path="/teams/*"
               element={
                 <TeamPage
                   setPageTitle={setPageTitle}
@@ -318,25 +312,26 @@ export const AuthenticatedPage = ({
               }
             />
             <Route
-              path="/users"
+              path="/users/*"
               element={
-                <EntityCRUD
+                <MainEntityPage
                   title="Users"
                   subtitle="Manage team members and access"
                   items={[]}
                   setPageTitle={setPageTitle}
                   tableColumns={tableColumns}
-                  onCreateClick={handleCreateClick}
                   createButtonLabel="New User"
                   searchPlaceholder="Search users..."
                   setPrimaryActionButton={setPrimaryActionButton}
                   setPageSubtitle={setPageSubtitle}
+                  onRefresh={() => {}}
                 />
               }
             />
             <Route path="*" element={<Navigate to="/dashbord" replace />} />
           </Routes>
         </MainContent>
+
       </MainContentWrap>
     </PageWrap>
   );

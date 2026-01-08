@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   TableWrap,
   TableOverflow,
@@ -30,7 +30,6 @@ export function Table({
   emptyTitle = 'No items found',
   emptyText = 'Create your first item to get started',
   showPagination = true,
-  totalItems,
   currentPage = 1,
   pageSize = 10,
   onPageChange,
@@ -38,10 +37,19 @@ export function Table({
   isRowSelected,
   getRowProps,
 }: TableProps) {
-  const displayTotal = totalItems ?? data.length;
-  const totalPages = Math.ceil(displayTotal / pageSize);
-  const showingStart = data.length > 0 ? (currentPage - 1) * pageSize + 1 : 0;
-  const showingEnd = Math.min(currentPage * pageSize, displayTotal);
+  const [displayTotal, setDisplayTotal] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+  const [showingStart, setShowingStart] = useState(0);
+  const [showingEnd, setShowingEnd] = useState(0);
+  const [dataToDisplay, setDataToDisplay] = useState(data);
+
+  useEffect(() => {
+    setDisplayTotal(data.length);
+    setTotalPages(Math.ceil(displayTotal / pageSize));
+    setShowingStart(data.length > 0 ? (currentPage - 1) * pageSize + 1 : 0);
+    setShowingEnd(Math.min(currentPage * pageSize, displayTotal));
+    setDataToDisplay(data.slice((currentPage - 1) * pageSize, currentPage * pageSize));
+  }, [data, currentPage, pageSize, displayTotal]);
 
   const handlePrevPage = useCallback(() => {
     if (currentPage > 1 && onPageChange) {
@@ -106,7 +114,7 @@ export function Table({
                   <LoadingOverlay>Loading...</LoadingOverlay>
                 </TableCell>
               </tr>
-            ) : data.length === 0 ? (
+            ) : dataToDisplay.length === 0 ? (
               <tr>
                 <TableCell colSpan={columns.length}>
                   <EmptyState>
@@ -117,14 +125,14 @@ export function Table({
                 </TableCell>
               </tr>
             ) : renderRow ? (
-              data.map((item, index) => renderRow(item, index))
+              dataToDisplay.map((item, index) => renderRow(item, index, onRowClick))
             ) : (
-              data.map((item, index) => renderDefaultRow(item, index))
+              dataToDisplay.map((item, index) => renderDefaultRow(item, index))
             )}
           </TableBody>
         </StyledTable>
       </TableOverflow>
-      {showPagination && !isLoading && data.length > 0 && (
+      {showPagination && !isLoading && dataToDisplay.length > 0 && (
         <PaginationWrap>
           <PaginationInfo>
             Showing {showingStart} to {showingEnd} of {displayTotal} items

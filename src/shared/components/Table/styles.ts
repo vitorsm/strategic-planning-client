@@ -10,7 +10,8 @@ export const TableWrap = styled.div`
 `;
 
 export const TableOverflow = styled.div`
-  overflow-x: auto;
+  overflow: auto;
+  max-height: calc(100vh - 280px);
 `;
 
 export const StyledTable = styled.table`
@@ -20,11 +21,15 @@ export const StyledTable = styled.table`
 `;
 
 export const TableHead = styled.thead`
+  position: sticky;
+  top: 0;
+  z-index: 1;
   background: ${colors.surface2};
 `;
 
 export const TableHeadRow = styled.tr`
   border-bottom: 1px solid ${colors.border};
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 `;
 
 export const TableHeadCell = styled.th<{ $width?: string }>`
@@ -35,6 +40,7 @@ export const TableHeadCell = styled.th<{ $width?: string }>`
   letter-spacing: 0.05em;
   color: ${colors.muted};
   width: ${({ $width }) => $width || 'auto'};
+  background: ${colors.surface2};
 
   &:first-child {
     padding-left: 24px;
@@ -167,3 +173,46 @@ export const EmptyStateText = styled.p`
   color: ${colors.muted};
 `;
 
+
+// to be used in the child cells of the table
+
+// Entity-specific cell styles (used with shared Table component)
+export const TitleCell = styled.div<{ $isChild?: boolean }>`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  ${({ $isChild }) =>
+    $isChild &&
+    css`
+      padding-left: 32px;
+      position: relative;
+    `}
+`;
+
+export const TreeLine = styled.span`
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  border-left: 1px solid #4b5563;
+  border-bottom: 1px solid #4b5563;
+  border-bottom-left-radius: 6px;
+`;
+
+export const ExpandButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: transparent;
+  border: none;
+  color: ${colors.muted};
+  cursor: pointer;
+  transition: color 150ms ease;
+
+  &:hover {
+    color: ${colors.white};
+  }
+`;

@@ -94,7 +94,7 @@ describe('useAuthenticate', () => {
       });
 
       expect(mockFetch).toHaveBeenCalledWith(
-        'http://192.168.0.8:5000/api/authenticate',
+        expect.stringContaining('/api/authenticate'),
         expect.objectContaining({
           method: 'POST',
           body: JSON.stringify({ username: 'user', password: 'pass' }),

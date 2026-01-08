@@ -44,16 +44,17 @@ export interface ListEntitiesProps {
   isLoading?: boolean;
   searchPlaceholder?: string;
   pageSize?: number;
+  getItemSubtitle?: (item: EntityItem) => string;
+  onRefresh: () => void;
 }
 
-export interface EntityCRUDProps {
+export interface MainEntityPageProps {
   title: string;
   subtitle?: string;
   items: any[];
   tableColumns: TableColumn[];
   setPageTitle: (title: string) => void;
   setPageSubtitle: (subtitle: string) => void;
-  onCreateClick?: () => void;
   secondaryActionButton?: ActionButtonProps;
   isLoading?: boolean;
   searchPlaceholder?: string;
@@ -61,6 +62,8 @@ export interface EntityCRUDProps {
   pageSize?: number;
   setPrimaryActionButton: (button: ActionButtonProps) => void;
   setSecondaryActionButton?: (button: ActionButtonProps) => void;
+  getItemSubtitle?: (item: any) => string;
+  onRefresh: () => void;
 }
 
 export interface FilterOption {

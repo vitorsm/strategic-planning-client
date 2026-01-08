@@ -1,3 +1,12 @@
+export { Card, CardTitle, CardSubtitle } from './Card';
+export type { CardProps } from './Card';
+
+export { Dialog } from './Dialog';
+
+export { Icon } from './Icon';
+export type { IconProps, IconSize } from './Icon';
+export type { DialogProps } from './Dialog';
+
 export { Checkbox } from './Checkbox';
 export type { CheckboxProps } from './Checkbox';
 
@@ -43,4 +52,10 @@ export {
 
 export { Sidebar } from './Sidebar';
 export type { SidebarProps, SidebarPosition } from './Sidebar';
+
+export { SearchInput } from './SearchInput';
+export type { SearchInputProps } from './SearchInput';
+
+export { InfoCard } from './InfoCard';
+export type { InfoCardProps } from './InfoCard';
 

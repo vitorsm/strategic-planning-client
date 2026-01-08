@@ -415,6 +415,7 @@ export const MainContentWrap = styled.div`
   display: flex;
   flex: 1;
   overflow: hidden;
+  width: 100%;
 `;
 
 export const MainContent = styled.main`

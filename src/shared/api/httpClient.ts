@@ -1,6 +1,8 @@
 
 import * as authStorage from '../auth/authStorage';
 
+const DEFAULT_BASE_URL = 'http://192.168.0.4:5000';
+
 export class APIClientError extends Error {
   status: number;
   body: unknown;
@@ -75,7 +77,7 @@ export class APIClient {
   private onUnauthorized: () => void;
 
   constructor(config: APIClientConfig = {}) {
-    this.baseUrl = config.baseUrl ?? '';
+    this.baseUrl = config.baseUrl ?? DEFAULT_BASE_URL;
     this.getToken = authStorage.getAccessToken;
     this.onUnauthorized = config.onUnauthorized ?? authStorage.clearAccessToken;
   }

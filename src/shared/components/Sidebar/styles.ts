@@ -56,7 +56,7 @@ export const Overlay = styled.div<{ $isOpen: boolean }>`
   bottom: 0;
   background: rgba(0, 0, 0, 0.5);
   cursor: pointer;
-  animation: ${fadeIn} 200ms ease-out forwards;
+  animation: ${fadeIn} 500ms ease-out forwards;
 `;
 
 export const SidebarContent = styled.div<{

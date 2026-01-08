@@ -10,7 +10,7 @@ export interface TableColumn {
 export interface TableProps {
   columns: TableColumn[];
   data: any[];
-  renderRow?: (item: any, index: number) => React.ReactNode;
+  renderRow?: (item: any, index: number, onItemClick?: (item: any, index: number) => void) => React.ReactNode;
   onRowClick?: (item: any, index: number) => void;
   selectedRowIndex?: number;
   isLoading?: boolean;
@@ -18,7 +18,6 @@ export interface TableProps {
   emptyTitle?: string;
   emptyText?: string;
   showPagination?: boolean;
-  totalItems?: number;
   currentPage?: number;
   pageSize?: number;
   onPageChange?: (page: number) => void;

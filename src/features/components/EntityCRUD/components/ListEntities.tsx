@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Table, TableColumn } from "../../../shared";
-import { ContentInner, FiltersWrap, SearchInput, SearchInputWrap, SubtitleText, TitleContent, TitleText } from "./styles";
-import { ListEntitiesProps } from "./types";
+import { Table, TableColumn, SearchInput, SecondaryButton } from "../../../../shared";
+import { ContentInner, FiltersWrap, SubtitleText, TitleContent, TitleText, TopRow } from "../styles";
+import { EntityItem, ListEntitiesProps } from "../types";
 
 
 export const ListEntities: React.FC<ListEntitiesProps> = ({
@@ -10,11 +10,12 @@ export const ListEntities: React.FC<ListEntitiesProps> = ({
     onItemClick,
     selectedItemId,
     isLoading,
+    onRefresh,
     searchPlaceholder = 'Search...',
-    pageSize=10
+    pageSize=10,
+    getItemSubtitle=(item: any) => ''
 }) => {
     const [searchQuery, setSearchQuery] = useState('');
-    const [totalItems, setTotalItems] = useState(items.length);
     const [currentPage, setCurrentPage] = useState(1);
     const [completeColumns, setCompleteColumns] = useState(columns);
 
@@ -26,7 +27,7 @@ export const ListEntities: React.FC<ListEntitiesProps> = ({
             return (
                 <TitleContent>
                     <TitleText>{item.name}</TitleText>
-                    <SubtitleText>{item.subtitle}</SubtitleText>
+                    <SubtitleText>{getItemSubtitle(item)}</SubtitleText>
                 </TitleContent>    
             );
         }
@@ -53,17 +54,20 @@ export const ListEntities: React.FC<ListEntitiesProps> = ({
 
     return (
         <ContentInner>
-            <FiltersWrap>
-                <SearchInputWrap>
-                    <span className="material-symbols-outlined">search</span>
+            <TopRow>
+                <FiltersWrap>
                     <SearchInput
-                        type="text"
                         placeholder={searchPlaceholder}
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                     />
-                </SearchInputWrap>
-            </FiltersWrap>
+                </FiltersWrap>
+
+                <SecondaryButton onClick={onRefresh}>
+                    <span className="material-symbols-outlined">refresh</span>
+                </SecondaryButton>
+            </TopRow>
+            
 
             <Table
                 columns={completeColumns}
@@ -77,11 +81,11 @@ export const ListEntities: React.FC<ListEntitiesProps> = ({
                         : 'Create your first item to get started'
                 }
                 showPagination={true}
-                totalItems={totalItems}
                 currentPage={currentPage}
                 pageSize={pageSize}
                 onPageChange={onPageChange}
                 getRowKey={(row) => row.id}
+                onRowClick={(item, index) => onItemClick?.(item)}
             />
         </ContentInner>
     );

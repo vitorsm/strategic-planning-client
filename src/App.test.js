@@ -92,8 +92,8 @@ describe('App', () => {
     expect(screen.getByText('John Doe')).toBeInTheDocument();
     expect(screen.getByText('Admin')).toBeInTheDocument();
 
-    // Step 4: Click the Sign Out button
-    const signOutButton = screen.getByRole('button', { name: /sign out/i });
+    // Step 4: Click the Sign Out button (accessible name includes icon text "logout")
+    const signOutButton = screen.getByRole('button', { name: /logout/i });
     await userEvent.click(signOutButton);
 
     // Step 5: Verify we're redirected back to the login page

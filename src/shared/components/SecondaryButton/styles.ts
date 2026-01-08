@@ -14,6 +14,7 @@ export const Button = styled.button`
   justify-content: center;
   gap: 10px;
   transition: background 150ms ease;
+  padding: 10px;
 
   &:hover {
     background: ${colors.surface2};

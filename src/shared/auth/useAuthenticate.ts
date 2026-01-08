@@ -26,7 +26,7 @@ export function useAuthenticate() {
 
   // Keep base URL aligned with local dev backend by default.
   // Switch to '' to use same-origin proxying (e.g. CRA proxy) when needed.
-  const client = React.useMemo(() => new APIClient({ baseUrl: 'http://192.168.0.8:5000' }), []);
+  const client = React.useMemo(() => new APIClient(), []);
 
   const authenticate = React.useCallback(async ({ username, password }: AuthenticateParams) => {
     setIsLoading(true);

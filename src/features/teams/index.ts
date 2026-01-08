@@ -1,2 +1,1 @@
 export { TeamPage } from './TeamPage';
-

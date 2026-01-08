@@ -31,3 +31,9 @@ export const Button = styled.button<{ $variant: PrimaryButtonVariant }>`
   }
 `;
 
+export const ButtonContent = styled.span`
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+`;
+

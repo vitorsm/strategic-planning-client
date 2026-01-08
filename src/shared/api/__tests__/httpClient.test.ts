@@ -262,7 +262,11 @@ describe('APIClient', () => {
 
       await clientNoBase.get('/api/users');
 
-      expect(mockFetch).toHaveBeenCalledWith('/api/users', expect.any(Object));
+      // When no baseUrl is provided, APIClient uses DEFAULT_BASE_URL
+      expect(mockFetch).toHaveBeenCalledWith(
+        expect.stringContaining('/api/users'),
+        expect.any(Object)
+      );
     });
 
     it('handles empty path', async () => {

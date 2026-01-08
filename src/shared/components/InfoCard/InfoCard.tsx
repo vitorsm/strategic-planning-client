@@ -13,6 +13,7 @@ export interface InfoCardProps {
   title: string;
   description: string;
   className?: string;
+  children?: React.ReactNode;
 }
 
 export const InfoCard: React.FC<InfoCardProps> = ({
@@ -20,6 +21,7 @@ export const InfoCard: React.FC<InfoCardProps> = ({
   title,
   description,
   className,
+  children,
 }) => {
   return (
     <StyledInfoCard className={className}>
@@ -30,6 +32,7 @@ export const InfoCard: React.FC<InfoCardProps> = ({
           <InfoCardDescription>{description}</InfoCardDescription>
         </InfoCardText>
       </InfoCardContent>
+      {children}
     </StyledInfoCard>
   );
 };

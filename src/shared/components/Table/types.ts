@@ -4,7 +4,7 @@ export interface TableColumn {
   key: string;
   label: string;
   width?: string;
-  render?: (item: any, index: number) => React.ReactNode;
+  render?: (item: any, index: number, depth?: number) => React.ReactNode;
 }
 
 export interface TableProps {
@@ -28,6 +28,10 @@ export interface TableProps {
     $isChild?: boolean;
     $isParentBorder?: boolean;
   };
+  // Tree-related props
+  isTreeTable?: boolean;
+  childrenKey?: string;
+  defaultExpandedIds?: string[];
 }
 
 export interface PaginationProps {

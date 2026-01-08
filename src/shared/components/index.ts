@@ -59,3 +59,12 @@ export type { SearchInputProps } from './SearchInput';
 export { InfoCard } from './InfoCard';
 export type { InfoCardProps } from './InfoCard';
 
+export { IconPicker } from './IconPicker';
+export type { IconPickerProps } from './IconPicker';
+
+export { ColorPicker } from './ColorPicker';
+export type { ColorPickerProps } from './ColorPicker';
+
+export { Dropdown } from './Dropdown';
+export type { DropdownProps } from './Dropdown';
+

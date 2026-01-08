@@ -4,7 +4,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useWriteEntity, UseWriteEntityResult } from '../../../../shared/hooks/generic-entities/useWriteEntity';
 import { GenericEntity } from '../../../../shared/models/generic-entity';
 import { useFetchEntity } from '../../../../shared/hooks/generic-entities/useFetchEntity';
-import { ButtonGroup, DetailsPageContainer, DetailsPageGrid, MobileFixedActionWrapper } from '../styles';
+import { ButtonGroup, DetailsPageContainer, DetailsPageGrid, DetailsPageWrap, MobileFixedActionWrapper } from '../styles';
 import { ActionButtonProps } from '../types';
 import { Dialog, Icon, PrimaryButton, SecondaryButton, useIsMobile } from '../../../../shared';
 
@@ -15,6 +15,7 @@ export interface EntityDetailsPageProps<T extends GenericEntity> {
   setSecondaryActionButton: (button: ActionButtonProps | undefined) => void;
   setPageSubtitle: (subtitle: string) => void;
   pageTitle: string;
+  pageSubtitle?: string;
   entityEndpoint: string;
   loadEntityDataStates: (entity: T | null) => void;
   getEntityFromStates: () => T;
@@ -27,6 +28,7 @@ export interface EntityDetailsPageProps<T extends GenericEntity> {
   setIsSubmittingCallback?: (isSubmitting: boolean) => void;
   showActionButtons?: boolean;
   setEntityIdCallback?: (entityId: string | undefined) => void;
+  entityDisplayName?: string;
 }
 
 export const EntityDetailsPage = <T extends GenericEntity>({
@@ -48,6 +50,8 @@ export const EntityDetailsPage = <T extends GenericEntity>({
   setEntityIdCallback,
   updateButtonLabel = 'Save',
   showActionButtons = true,
+  pageSubtitle = '',
+  entityDisplayName = 'entity'
 }: EntityDetailsPageProps<T>) => {
 
   const { entity_id: entityId } = useParams<{ entity_id: string }>();
@@ -110,7 +114,7 @@ export const EntityDetailsPage = <T extends GenericEntity>({
 
   useEffect(() => {
     setPageTitle(pageTitle);
-    setPageSubtitle('');
+    setPageSubtitle(pageSubtitle);
 
     setPrimaryActionButton(undefined);
     setSecondaryActionButton(undefined);
@@ -185,43 +189,45 @@ export const EntityDetailsPage = <T extends GenericEntity>({
   };
 
   return (
-    <DetailsPageContainer>
-      <DetailsPageGrid>
-        {children}
-      </DetailsPageGrid>
+    <DetailsPageWrap $isMobile={isMobile as boolean}>
+      <DetailsPageContainer $isMobile={isMobile as boolean}>
+        <DetailsPageGrid>
+          {children}
+        </DetailsPageGrid>
 
-      {isEditMode && (
-        <div>
-          <SecondaryButton
-            icon={<div className="material-symbols-outlined">delete</div>}
-            onClick={handleDeleteClick}
-            disabled={isDeleting}
-          >
-            {isDeleting ? 'Deleting...' : 'Delete team'}
-          </SecondaryButton>
-        </div>
-      )}
+        {isEditMode && (
+          <div>
+            <SecondaryButton
+              icon={<div className="material-symbols-outlined">delete</div>}
+              onClick={handleDeleteClick}
+              disabled={isDeleting}
+            >
+              {isDeleting ? 'Deleting...' : `Delete ${entityDisplayName}`}
+            </SecondaryButton>
+          </div>
+        )}
 
-      {showActionButtons && (
-        <MobileFixedActionWrapper>
-          {renderActionButtons()}
-        </MobileFixedActionWrapper>
-      )}
+        {showActionButtons && (
+          <MobileFixedActionWrapper>
+            {renderActionButtons()}
+          </MobileFixedActionWrapper>
+        )}
 
-      {/* Delete Confirmation Dialog */}
-      {showDeleteDialog && (
-        <Dialog
-          title="Delete Team"
-          description={`Are you sure you want to delete this entity? This action cannot be undone.`}
-          icon={<div className="material-symbols-outlined">warning</div>}
-          onOkAction={handleDeleteConfirm}
-          onCancelAction={handleDeleteCancel}
-          okLabel="Delete"
-          cancelLabel="Cancel"
-        />
-      )}
+        {/* Delete Confirmation Dialog */}
+        {showDeleteDialog && (
+          <Dialog
+            title={`Delete ${entityDisplayName.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}`}
+            description={`Are you sure you want to delete this entity? This action cannot be undone.`}
+            icon={<div className="material-symbols-outlined">warning</div>}
+            onOkAction={handleDeleteConfirm}
+            onCancelAction={handleDeleteCancel}
+            okLabel="Delete"
+            cancelLabel="Cancel"
+          />
+        )}
 
-    </DetailsPageContainer>
+      </DetailsPageContainer>
+    </DetailsPageWrap>
   );
 };
 

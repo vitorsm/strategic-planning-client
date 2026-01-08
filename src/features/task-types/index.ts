@@ -1,0 +1,2 @@
+export { TaskTypePage } from './TaskTypePage';
+

@@ -78,12 +78,52 @@ export const TableRow = styled.tr<{ $selected?: boolean; $isChild?: boolean; $is
   }
 `;
 
-export const TableCell = styled.td`
+export const TableCell = styled.td<{ $depth?: number }>`
   padding: 16px;
 
   &:first-child {
-    padding-left: 24px;
+    padding-left: ${({ $depth }) => $depth ? `${24 + ($depth * 32)}px` : '24px'};
   }
+`;
+
+export const TableCellTitle = styled.td<{ $depth?: number }>`
+  display: flex;
+`;
+
+export const TreeExpandButton = styled.button<{ $expanded?: boolean }>`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+  padding: 0;
+  background: transparent;
+  border: 1px solid ${colors.border};
+  border-radius: 4px;
+  color: ${colors.muted};
+  cursor: pointer;
+  transition: all 150ms ease;
+  vertical-align: middle;
+
+  .material-symbols-outlined {
+    font-size: 16px;
+    transition: transform 150ms ease;
+    transform: ${({ $expanded }) => $expanded ? 'rotate(90deg)' : 'rotate(0deg)'};
+  }
+
+  &:hover {
+    background: ${colors.surface2};
+    color: ${colors.white};
+    border-color: ${colors.primary};
+  }
+`;
+
+export const TreeIndentGuide = styled.span<{ $depth: number }>`
+  display: inline-block;
+  width: ${({ $depth }) => $depth * 32}px;
+  height: 100%;
+  position: relative;
 `;
 
 // Pagination Styles

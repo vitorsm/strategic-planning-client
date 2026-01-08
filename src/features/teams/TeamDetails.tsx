@@ -134,6 +134,7 @@ export const TeamDetails: React.FC<TeamDetailsProps> = ({
             setIsSubmittingCallback={(fn) => setIsSubmitting(() => fn)}
             showActionButtons={isMobile || isEditMode}
             setEntityIdCallback={(id) => setTeamId(id)}
+            entityDisplayName="team"
         >
             <>
                 <LeftColumn>

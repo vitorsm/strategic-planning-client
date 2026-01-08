@@ -27,8 +27,12 @@ interface RoutePageProps<T extends GenericEntity> {
     createButtonLabel: string;
     searchPlaceholder: string;
     tableColumns: TableColumn[];
-    getItemSubtitle: (item: T) => string;
+    getItemSubtitle: (item: T) => React.ReactNode;
     routes?: RouteProps[];
+    // Tree-related props
+    isTreeTable?: boolean;
+    childrenKey?: string;
+    defaultExpandedIds?: string[];
 }
 
 export const RoutePage = <T extends GenericEntity>({
@@ -47,6 +51,9 @@ export const RoutePage = <T extends GenericEntity>({
     tableColumns,
     getItemSubtitle,
     routes,
+    isTreeTable = false,
+    childrenKey = 'children',
+    defaultExpandedIds = [],
 }: RoutePageProps<T>) => {
     const { entities, isLoading, error, fetchEntities } = useFetchEntities<T>(apiEndpoint);
     const location = useLocation();
@@ -93,6 +100,9 @@ export const RoutePage = <T extends GenericEntity>({
                     isLoading={isLoading}
                     getItemSubtitle={getItemSubtitle}
                     onRefresh={() => fetchEntities(DEFAULT_WORKSPACE_ID)}
+                    isTreeTable={isTreeTable}
+                    childrenKey={childrenKey}
+                    defaultExpandedIds={defaultExpandedIds}
                     />
             } />
             <Route path="/new" element={

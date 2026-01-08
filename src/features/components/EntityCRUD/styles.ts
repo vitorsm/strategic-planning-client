@@ -10,7 +10,6 @@ export const ContentWrap = styled.div`
 
 export const ContentInner = styled.div`
   padding: 24px;
-  max-width: 1600px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -79,16 +78,21 @@ export const DateText = styled.span`
   color: ${colors.muted};
 `;
 
-export const DetailsPageContainer = styled.div`
+export const DetailsPageWrap = styled.div<{ $isMobile?: boolean }>`
+  width: '100%';
+  overflow-y: auto;
+  height: 100%;
+  margin-bottom: 100px;
+`;
+
+export const DetailsPageContainer = styled.div<{ $isMobile?: boolean }>`
   display: flex;
   flex-direction: column;
   max-width: 1200px;
-  width: calc(100% - 64px);
+  width: ${({ $isMobile }) => $isMobile ? 'calc(100% - 40px)' : 'calc(100% - 64px)'};
   margin: 0 auto;
-  padding: 32px;
+  padding: ${({ $isMobile}) => $isMobile ? '20px' : '32px'};
   height: 100%;
-  overflow-y: auto;
-  padding-bottom: 140px;
 `;
 
 export const DetailsPageGrid = styled.div`
@@ -107,6 +111,10 @@ export const ButtonGroup = styled.div`
   display: flex;
   flex-direction: row;
   gap: 12px;
+
+  > * {
+    flex: 1;
+  }
 `;
 
 export const MobileFixedActionWrapper = styled.div`

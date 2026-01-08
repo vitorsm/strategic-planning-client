@@ -87,3 +87,4 @@ src/
     3. MainPageComponent usually is MainEntityPage, that is the default entity page
     4. DetailsPageComponent is the entity page that was created in step 3
 5. __tests__ to test the pages behaviors. Add in this directory at least two page tests: {EntityName}Page.test.tsx and {EntityName}Details.test.tsx. It should test if the entities are being display in the table, if the refresh button is working, if it is possible to create a new entity, if it is possible to edit an entity, and if it is possible to delete an entity. Add tests in {EntityName}Page.test.tsx that click in the entity, open the entity details screen, update/delete the entity and check if the fetch entities was called again when return to the main page
+6. In src/features/components/AuthenticatedPage/AuthenticatedPage.tsx add this new page menu in INITIAL_NAV_ITEMS. Add the route to this component too.

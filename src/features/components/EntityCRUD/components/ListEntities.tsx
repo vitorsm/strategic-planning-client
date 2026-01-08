@@ -13,7 +13,10 @@ export const ListEntities: React.FC<ListEntitiesProps> = ({
     onRefresh,
     searchPlaceholder = 'Search...',
     pageSize=10,
-    getItemSubtitle=(item: any) => ''
+    getItemSubtitle=(item: any) => '',
+    isTreeTable = false,
+    childrenKey = 'children',
+    defaultExpandedIds = [],
 }) => {
     const [searchQuery, setSearchQuery] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
@@ -86,6 +89,9 @@ export const ListEntities: React.FC<ListEntitiesProps> = ({
                 onPageChange={onPageChange}
                 getRowKey={(row) => row.id}
                 onRowClick={(item, index) => onItemClick?.(item)}
+                isTreeTable={isTreeTable}
+                childrenKey={childrenKey}
+                defaultExpandedIds={defaultExpandedIds}
             />
         </ContentInner>
     );

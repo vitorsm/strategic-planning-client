@@ -20,6 +20,9 @@ export const MainEntityPage: React.FC<MainEntityPageProps> = ({
   searchPlaceholder = 'Search...',
   createButtonLabel = 'New Item',
   pageSize = 10,
+  isTreeTable = false,
+  childrenKey = 'children',
+  defaultExpandedIds = [],
 }) => {
 
   const navigate = useNavigate();
@@ -65,7 +68,11 @@ export const MainEntityPage: React.FC<MainEntityPageProps> = ({
         searchPlaceholder={searchPlaceholder} 
         pageSize={pageSize}
         getItemSubtitle={getItemSubtitle}
-        onRefresh={onRefresh} />
+        onRefresh={onRefresh}
+        isTreeTable={isTreeTable}
+        childrenKey={childrenKey}
+        defaultExpandedIds={defaultExpandedIds}
+      />
     </ContentWrap>
   );
 };

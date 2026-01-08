@@ -44,8 +44,12 @@ export interface ListEntitiesProps {
   isLoading?: boolean;
   searchPlaceholder?: string;
   pageSize?: number;
-  getItemSubtitle?: (item: EntityItem) => string;
+  getItemSubtitle?: (item: EntityItem) => React.ReactNode;
   onRefresh: () => void;
+  // Tree-related props
+  isTreeTable?: boolean;
+  childrenKey?: string;
+  defaultExpandedIds?: string[];
 }
 
 export interface MainEntityPageProps {
@@ -62,8 +66,12 @@ export interface MainEntityPageProps {
   pageSize?: number;
   setPrimaryActionButton: (button: ActionButtonProps) => void;
   setSecondaryActionButton?: (button: ActionButtonProps) => void;
-  getItemSubtitle?: (item: any) => string;
+  getItemSubtitle?: (item: any) => React.ReactNode;
   onRefresh: () => void;
+  // Tree-related props
+  isTreeTable?: boolean;
+  childrenKey?: string;
+  defaultExpandedIds?: string[];
 }
 
 export interface FilterOption {

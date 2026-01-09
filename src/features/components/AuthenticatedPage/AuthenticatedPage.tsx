@@ -25,6 +25,7 @@ import { useAuthenticate } from '../../../shared/auth/useAuthenticate';
 import { MainEntityPage, EntityItem } from '../EntityCRUD';
 import { TeamPage } from '../../teams';
 import { TaskTypePage } from '../../task-types';
+import { ReminderPage } from '../../reminders';
 import { TableColumn } from '../../../shared';
 import { OwnerAvatar } from '../EntityCRUD/styles';
 import { ActionButtonProps } from '../EntityCRUD/types';
@@ -53,6 +54,12 @@ const INITIAL_NAV_ITEMS: NavItemType[] = [
     icon: 'category',
     label: 'Task Types',
     href: '/task-types',
+    active: false,
+    addButtonClicked: false,
+  }, {
+    icon: 'notifications',
+    label: 'Reminders',
+    href: '/reminders',
     active: false,
     addButtonClicked: false,
   }, {
@@ -322,6 +329,17 @@ export const AuthenticatedPage = ({
               path="/task-types/*"
               element={
                 <TaskTypePage
+                  setPageTitle={setPageTitle}
+                  setPrimaryActionButton={setPrimaryActionButton}
+                  setSecondaryActionButton={setSecondaryActionButton}
+                  setPageSubtitle={setPageSubtitle}
+                />
+              }
+            />
+            <Route
+              path="/reminders/*"
+              element={
+                <ReminderPage
                   setPageTitle={setPageTitle}
                   setPrimaryActionButton={setPrimaryActionButton}
                   setSecondaryActionButton={setSecondaryActionButton}

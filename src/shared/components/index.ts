@@ -1,6 +1,9 @@
 export { Card, CardTitle, CardSubtitle } from './Card';
 export type { CardProps } from './Card';
 
+export { Badge } from './Badge';
+export type { BadgeProps, BadgeVariant } from './Badge';
+
 export { Dialog } from './Dialog';
 
 export { Icon } from './Icon';

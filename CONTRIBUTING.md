@@ -75,16 +75,22 @@ src/
 
 1. First, create the entity at src/shared/models. It must extends GenericEntity.
 2. Create the entity directory at src/features
-3. Create the entity details page. It should have this name: {EntityName}Details.tsx. Use the component EntityDetailsPage. The children of this component is where we put the forms. The component EntityDetailsPage has some parameters:
+3. Create the entity create/update page. It should have this name: CreateUpdate{EntityName}.tsx. Use the component CreateUpdateEntityPage. The children of this component is where we put the forms. The component CreateUpdateEntityPage has some parameters:
     1. isEntityValidToSubmit should check if all required fields of the entity are filled
     2. entityEndpoint usually is /api/{entity_name_in_plural}
     3. loadEntityDataStates is a function that will get a entity object and fill the component states
     4. setEntityIdCallback should fill a entityId that will be used to build the object
     5. getEntityFromStates is the function that reads the component states and build the entity object
-4. Create the main entity page. It should have this name: {EntityName}Page.tsx. Use the component RoutePage. This component is responsible for define the entity routes and show the first screen. It shows a table with the list of entities. There are some required parameters:
+4. If the entity should have a details page create it using the name {EntityName}Details.tsx. It should use component EntityDetailsPage and it has some parameters:
+    1. isEntityValidToSubmit should check if all required fields of the entity are filled
+    2. entityEndpoint usually is /api/{entity_name_in_plural}
+    3. loadEntityDataStates is a function that will get a entity object and fill the component states
+    4. setEntityIdCallback should fill a entityId that will be used to build the object
+    5. getEntityFromStates is the function that reads the component states and build the entity object
+5. Create the main entity page. It should have this name: {EntityName}Page.tsx. Use the component RoutePage. This component is responsible for define the entity routes and show the first screen. It shows a table with the list of entities. There are some required parameters:
     1. apiEndpoint usually is /api/{entity_name_in_plural}
     2. rootPath usually is /{entity_name_in_plural}
     3. MainPageComponent usually is MainEntityPage, that is the default entity page
     4. DetailsPageComponent is the entity page that was created in step 3
-5. __tests__ to test the pages behaviors. Add in this directory at least two page tests: {EntityName}Page.test.tsx and {EntityName}Details.test.tsx. It should test if the entities are being display in the table, if the refresh button is working, if it is possible to create a new entity, if it is possible to edit an entity, and if it is possible to delete an entity. Add tests in {EntityName}Page.test.tsx that click in the entity, open the entity details screen, update/delete the entity and check if the fetch entities was called again when return to the main page
-6. In src/features/components/AuthenticatedPage/AuthenticatedPage.tsx add this new page menu in INITIAL_NAV_ITEMS. Add the route to this component too.
+6. __tests__ to test the pages behaviors. Add in this directory at least two page tests: {EntityName}Page.test.tsx and {EntityName}Details.test.tsx. It should test if the entities are being display in the table, if the refresh button is working, if it is possible to create a new entity, if it is possible to edit an entity, and if it is possible to delete an entity. Add tests in {EntityName}Page.test.tsx that click in the entity, open the entity details screen, update/delete the entity and check if the fetch entities was called again when return to the main page
+7. In src/features/components/AuthenticatedPage/AuthenticatedPage.tsx add this new page menu in INITIAL_NAV_ITEMS. Add the route to this component too.

@@ -78,11 +78,11 @@ export const DateText = styled.span`
   color: ${colors.muted};
 `;
 
-export const DetailsPageWrap = styled.div<{ $isMobile?: boolean }>`
+export const DetailsPageWrap = styled.div<{ $hasBottomMenu?: boolean }>`
   width: '100%';
   overflow-y: auto;
   height: 100%;
-  margin-bottom: 100px;
+  margin-bottom: ${({ $hasBottomMenu }) => $hasBottomMenu ? '100px' : '0'};
 `;
 
 export const DetailsPageContainer = styled.div<{ $isMobile?: boolean }>`

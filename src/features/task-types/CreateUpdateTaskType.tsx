@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { TaskType } from "../../shared/models/task-type";
-import { EntityDetailsPage } from "../components/EntityCRUD";
+import { CreateUpdateEntityPage } from "../components/EntityCRUD";
 import { ActionButtonProps } from "../components/EntityCRUD";
 import { Card, ColorPicker, DEFAULT_WORKSPACE_ID, Dropdown, Icon, IconPicker, InfoCard, PrimaryButton, SecondaryButton, TextInput, useIsMobile } from "../../shared";
 import {
@@ -29,11 +29,11 @@ import {
     SuccessIcon,
     WarningIcon,
 } from "./styles";
-import HierarchyTaskTypeTree from "./components/HierarchyTaskTypeTree";
 import { useFetchTaskTypes } from "./hooks/useFetchTaskTypes";
+import { HierarchyTree } from "../../shared/components/HierarchyTree.tsx";
 
 
-interface TaskTypeDetailsProps {
+interface CreateUpdateTaskTypeProps {
     setPageTitle: (title: string) => void;
     setPrimaryActionButton: (button: ActionButtonProps | undefined) => void;
     setSecondaryActionButton: (button: ActionButtonProps | undefined) => void;
@@ -58,7 +58,7 @@ const MOCK_ROOT_TYPES: (TaskType & { childCount: number })[] = [
     { id: '4', name: 'People Management', color: '#22c55e', icon: 'folder', parent_type: null, children: [], workspace: {}, childCount: 3 },
 ];
 
-export const TaskTypeDetails: React.FC<TaskTypeDetailsProps> = ({ 
+export const CreateUpdateTaskType: React.FC<CreateUpdateTaskTypeProps> = ({ 
     setPageTitle,
     setPrimaryActionButton,
     setSecondaryActionButton,
@@ -185,7 +185,7 @@ export const TaskTypeDetails: React.FC<TaskTypeDetailsProps> = ({
       };
 
     return (
-        <EntityDetailsPage<TaskType>
+        <CreateUpdateEntityPage<TaskType>
             entityEndpoint="api/task-types"
             createButtonLabel="Create Task Type"
             updateButtonLabel="Update Task Type"
@@ -307,7 +307,11 @@ export const TaskTypeDetails: React.FC<TaskTypeDetailsProps> = ({
                             {/* Preview Structure */}
                             <HierarchyPreviewContainer>
                                 <PreviewLabel>Preview Structure</PreviewLabel>
-                                <HierarchyTaskTypeTree taskType={getEntityFromStates()} taskTypes={MOCK_ROOT_TYPES} parentTaskType={parentCategory} />
+                                {/* <HierarchyTaskTypeTree taskType={getEntityFromStates()} taskTypes={MOCK_ROOT_TYPES} parentTaskType={parentCategory} /> */}
+                                <HierarchyTree<TaskType> 
+                                    selectedEntity={getEntityFromStates()}
+                                    selectedEntityParent={parentCategory} 
+                                    parentEntityAttributeName="parent_type" />
                             </HierarchyPreviewContainer>
                         </FormGroup>
                     </Card>
@@ -361,6 +365,6 @@ export const TaskTypeDetails: React.FC<TaskTypeDetailsProps> = ({
                     selectedColor={color}
                 />
             </>
-        </EntityDetailsPage>
+        </CreateUpdateEntityPage>
     );
 }

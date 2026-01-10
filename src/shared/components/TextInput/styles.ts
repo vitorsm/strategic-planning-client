@@ -10,7 +10,7 @@ export const Field = styled.div`
 
 export const FieldLabel = styled.label`
   color: ${colors.text};
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
 `;
 

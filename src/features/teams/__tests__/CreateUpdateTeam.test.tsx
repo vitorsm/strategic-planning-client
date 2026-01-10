@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, waitFor, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
-import { TeamDetails } from '../TeamDetails';
+import { CreateUpdateTeam } from '../CreateUpdateTeam';
 
 // Mock hooks
 const mockFetchEntity = jest.fn();

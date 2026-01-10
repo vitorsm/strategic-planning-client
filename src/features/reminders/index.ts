@@ -1,3 +1,3 @@
 export { ReminderPage } from './ReminderPage';
-export { ReminderDetails } from './ReminderDetails';
+export { CreateUpdateReminder } from './CreateUpdateReminder';
 

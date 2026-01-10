@@ -26,6 +26,7 @@ import { MainEntityPage, EntityItem } from '../EntityCRUD';
 import { TeamPage } from '../../teams';
 import { TaskTypePage } from '../../task-types';
 import { ReminderPage } from '../../reminders';
+import { GoalPage } from '../../goals';
 import { TableColumn } from '../../../shared';
 import { OwnerAvatar } from '../EntityCRUD/styles';
 import { ActionButtonProps } from '../EntityCRUD/types';
@@ -42,6 +43,12 @@ const INITIAL_NAV_ITEMS: NavItemType[] = [
     icon: 'dashboard',
     label: 'Dashboard',
     href: '/dashbord',
+    active: false,
+    addButtonClicked: false,
+  }, {
+    icon: 'flag',
+    label: 'Goals',
+    href: '/goals',
     active: false,
     addButtonClicked: false,
   }, {
@@ -311,6 +318,17 @@ export const AuthenticatedPage = ({
                   searchPlaceholder="Search goals..."
                   setPrimaryActionButton={setPrimaryActionButton}
                   onRefresh={() => {}}
+                />
+              }
+            />
+            <Route
+              path="/goals/*"
+              element={
+                <GoalPage
+                  setPageTitle={setPageTitle}
+                  setPrimaryActionButton={setPrimaryActionButton}
+                  setSecondaryActionButton={setSecondaryActionButton}
+                  setPageSubtitle={setPageSubtitle}
                 />
               }
             />

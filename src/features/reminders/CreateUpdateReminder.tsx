@@ -1,6 +1,6 @@
 import { useCallback, useState, useEffect } from "react";
 import { Reminder, ReminderStatus } from "../../shared/models/reminder";
-import { EntityDetailsPage } from "../components/EntityCRUD";
+import { CreateUpdateEntityPage } from "../components/EntityCRUD";
 import { ActionButtonProps } from "../components/EntityCRUD";
 import { Card, DEFAULT_WORKSPACE_ID, Icon, InfoCard, PrimaryButton, SecondaryButton, TextInput, useIsMobile, Dropdown } from "../../shared";
 import { ActionCardText, ButtonGroup, FormGroup, LeftColumn, RightColumn } from "./styles";
@@ -12,14 +12,14 @@ import { useFetchEntities } from "../../shared/hooks/generic-entities/useFetchEn
 import { getVisualUser } from "../../shared/utils/user_utils";
 
 
-interface ReminderDetailsProps {
+interface CreateUpdateReminderProps {
     setPageTitle: (title: string) => void;
     setPrimaryActionButton: (button: ActionButtonProps | undefined) => void;
     setSecondaryActionButton: (button: ActionButtonProps | undefined) => void;
     setPageSubtitle: (subtitle: string) => void;
 }
 
-export const ReminderDetails: React.FC<ReminderDetailsProps> = ({ 
+export const CreateUpdateReminder: React.FC<CreateUpdateReminderProps> = ({ 
     setPageTitle,
     setPrimaryActionButton,
     setSecondaryActionButton,
@@ -145,7 +145,7 @@ export const ReminderDetails: React.FC<ReminderDetailsProps> = ({
       };
 
     return (
-        <EntityDetailsPage<Reminder>
+        <CreateUpdateEntityPage<Reminder>
             entityEndpoint="api/reminders"
             createButtonLabel="Create Reminder"
             updateButtonLabel="Update Reminder"
@@ -245,6 +245,6 @@ export const ReminderDetails: React.FC<ReminderDetailsProps> = ({
                     )}
                 </RightColumn>
             </>
-        </EntityDetailsPage>
+        </CreateUpdateEntityPage>
     );
 }

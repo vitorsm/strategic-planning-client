@@ -1,5 +1,5 @@
 export { MainEntityPage } from './pages/MainEntityPage';
-export { EntityDetailsPage } from './pages/EntityDetailsPage';
+export { CreateUpdateEntityPage } from './pages/CreateUpdateEntityPage';
 export { RoutePage } from './pages/RoutePage';
 export type {
   EntityItem,
@@ -9,4 +9,6 @@ export type {
   FilterOption,
   ActionButtonProps
 } from './types';
+
+export { EntityDetailsPage } from './pages/EntityDetailsPage';
 

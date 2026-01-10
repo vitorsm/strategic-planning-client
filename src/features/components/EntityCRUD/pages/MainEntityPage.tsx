@@ -46,6 +46,7 @@ export const MainEntityPage: React.FC<MainEntityPageProps> = ({
     }
 
     if (secondaryActionButton && setSecondaryActionButton) {
+      console.log('setting secondary action button to', secondaryActionButton);
       setSecondaryActionButton(secondaryActionButton);
     }
   }, []);

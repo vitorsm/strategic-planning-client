@@ -6,5 +6,3 @@ export type { APIClientConfig } from './httpClient';
 
 export { DEFAULT_WORKSPACE_ID };
 
-
-

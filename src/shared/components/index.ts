@@ -71,3 +71,9 @@ export type { ColorPickerProps } from './ColorPicker';
 export { Dropdown } from './Dropdown';
 export type { DropdownProps } from './Dropdown';
 
+export { DatePicker } from './DatePicker';
+export type { DatePickerProps } from './DatePicker';
+
+export { IconRadioGroup } from './IconRadioGroup';
+export type { IconRadioOption } from './IconRadioGroup';
+

@@ -1,7 +1,7 @@
 import React from 'react';
 import { MainEntityPage } from '../components/EntityCRUD';
 import { ActionButtonProps } from '../components/EntityCRUD/types';
-import { TaskTypeDetails } from './TaskTypeDetails';
+import { CreateUpdateTaskType } from './CreateUpdateTaskType';
 import { RoutePage } from '../components/EntityCRUD';
 import { Icon } from '../../shared';
 
@@ -23,7 +23,7 @@ export const TaskTypePage: React.FC<TaskTypePageProps> = ({ setPageTitle, setPri
       apiEndpoint="/api/task-types"
       rootPath="/task-types"
       MainPageComponent={MainEntityPage}
-      DetailsPageComponent={TaskTypeDetails}
+      GenericCreateUpdateComponent={CreateUpdateTaskType}
       mainPageTitle="Task Types Management"
       mainPageSubtitle="Manage your task types"
       createButtonLabel="New Task Type"

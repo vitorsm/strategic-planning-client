@@ -7,7 +7,14 @@ import { User } from '../../models/user';
 export const ENTITY_NOT_FOUND_ERROR = 'Entity not found';
 
 
-export function useFetchEntity<T extends GenericEntity | User>(endpoint: string) {
+interface UseFetchEntityResult<T extends GenericEntity | User> {
+  fetchEntity: (entityId: string) => Promise<T | null>;
+  entity: T | null;
+  isLoading: boolean;
+  error: string | null;
+}
+
+export function useFetchEntity<T extends GenericEntity | User>(endpoint: string): UseFetchEntityResult<T> {
   const [entity, setEntity] = useState<T | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);

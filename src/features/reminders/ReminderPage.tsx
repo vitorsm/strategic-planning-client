@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { MainEntityPage } from '../components/EntityCRUD';
 import { ActionButtonProps } from '../components/EntityCRUD/types';
-import { ReminderDetails } from './ReminderDetails';
+import { CreateUpdateReminder } from './CreateUpdateReminder';
 import { RoutePage } from '../components/EntityCRUD';
 import { Reminder, ReminderStatus } from '../../shared/models/reminder';
 import { Badge, BadgeVariant, useIsMobile } from '../../shared';
@@ -53,7 +53,7 @@ export const ReminderPage: React.FC<ReminderPageProps> = ({ setPageTitle, setPri
       apiEndpoint="/api/reminders"
       rootPath="/reminders"
       MainPageComponent={MainEntityPage}
-      DetailsPageComponent={ReminderDetails}
+      GenericCreateUpdateComponent={CreateUpdateReminder}
       mainPageTitle="Reminders Management"
       mainPageSubtitle="Manage your reminders"
       createButtonLabel="New Reminder"

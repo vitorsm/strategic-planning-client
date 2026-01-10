@@ -9,7 +9,7 @@ export const DropdownContainer = styled.div`
 
 export const DropdownLabel = styled.label<{ $required?: boolean }>`
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 600;
   color: ${colors.text};
   
   ${props => props.$required && css`
@@ -23,7 +23,6 @@ export const DropdownLabel = styled.label<{ $required?: boolean }>`
 export const DropdownWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  width: calc(100% - 60px);
   gap: 4px;
 `;
 

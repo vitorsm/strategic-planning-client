@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import { DEFAULT_WORKSPACE_ID, TableColumn } from "../../../../shared";
 
 
-export interface GenericEntityDetailsPageProps {
+export interface GenericCreateUpdateEntityPageProps {
     setPageTitle: (title: string) => void;
     setPrimaryActionButton: (button: ActionButtonProps | undefined) => void;
     setSecondaryActionButton: (button: ActionButtonProps | undefined) => void;
@@ -21,7 +21,8 @@ interface RoutePageProps<T extends GenericEntity> {
     apiEndpoint: string;
     rootPath: string;
     MainPageComponent: React.ComponentType<MainEntityPageProps>;
-    DetailsPageComponent: React.ComponentType<GenericEntityDetailsPageProps>;
+    GenericCreateUpdateComponent: React.ComponentType<GenericCreateUpdateEntityPageProps>;
+    EntityDetailsComponent?: React.ComponentType<GenericCreateUpdateEntityPageProps>;
     mainPageTitle: string;
     mainPageSubtitle: string;
     createButtonLabel: string;
@@ -43,7 +44,8 @@ export const RoutePage = <T extends GenericEntity>({
     apiEndpoint,
     rootPath,
     MainPageComponent,
-    DetailsPageComponent,
+    GenericCreateUpdateComponent,
+    EntityDetailsComponent,
     mainPageTitle,
     mainPageSubtitle,
     createButtonLabel,
@@ -75,8 +77,24 @@ export const RoutePage = <T extends GenericEntity>({
 
     useEffect(() => {
         if (!isRootPage) return;
+        console.log('setting secondary action button to undefined');
         setSecondaryActionButton(undefined);
     }, [location.pathname, isRootPage]);
+
+    const getEntityDetailsComponent = () => {
+        if (EntityDetailsComponent) {
+            return <EntityDetailsComponent 
+                setPageTitle={setPageTitle} 
+                setPrimaryActionButton={setPrimaryActionButton} 
+                setPageSubtitle={setPageSubtitle} 
+                setSecondaryActionButton={setSecondaryActionButton} />;
+        }
+        return <GenericCreateUpdateComponent 
+            setPageTitle={setPageTitle} 
+            setPrimaryActionButton={setPrimaryActionButton} 
+            setPageSubtitle={setPageSubtitle} 
+            setSecondaryActionButton={setSecondaryActionButton} />;
+    };
 
     const renderRoutes = () => {
         return routes?.map((route) => {
@@ -106,15 +124,18 @@ export const RoutePage = <T extends GenericEntity>({
                     />
             } />
             <Route path="/new" element={
-                <DetailsPageComponent
+                <GenericCreateUpdateComponent
                     setPageSubtitle={setPageSubtitle} 
                     setPrimaryActionButton={setPrimaryActionButton} 
                     setPageTitle={setPageTitle} 
                     setSecondaryActionButton={setSecondaryActionButton}
                     />
                 } />
-            <Route path="/:entity_id" element={
-                <DetailsPageComponent 
+
+            <Route path="/:entity_id" element={getEntityDetailsComponent()} />
+
+            <Route path="/:entity_id/edit" element={
+                <GenericCreateUpdateComponent 
                     setPageSubtitle={setPageSubtitle} 
                     setPrimaryActionButton={setPrimaryActionButton} 
                     setPageTitle={setPageTitle} 
